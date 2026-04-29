@@ -20,5 +20,3 @@ logs/access_token.txt
 .DS_Store
 *.png
 
-# PDF (large binary, generated)
-*.pdf
