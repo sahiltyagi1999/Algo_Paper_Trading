@@ -1,0 +1,314 @@
+2026-04-21 08:52:03,886  INFO      =======================================================
+2026-04-21 08:52:03,887  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 08:52:03,887  INFO      =======================================================
+2026-04-21 08:53:43,274  INFO      =======================================================
+2026-04-21 08:53:43,274  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 08:53:43,274  INFO      =======================================================
+2026-04-21 08:53:43,560  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 08:53:43,560  INFO      Running pre-market checks...
+2026-04-21 08:53:45,101  INFO      India VIX: 18.79
+2026-04-21 08:53:45,104  INFO      VIX=18.79 — normal conditions, safe to trade
+2026-04-21 08:53:45,104  INFO      VIX: VIX=18.79 — normal conditions, safe to trade
+2026-04-21 08:53:45,492  INFO      Pre-market OK | VIX=18.79 | OI bias=N/A
+2026-04-21 08:53:45,493  INFO      Market opens at 09:15. Waiting 21 min...
+2026-04-21 08:54:45,500  INFO      Market opens at 09:15. Waiting 20 min...
+2026-04-21 08:55:45,508  INFO      Market opens at 09:15. Waiting 19 min...
+2026-04-21 08:56:45,518  INFO      Market opens at 09:15. Waiting 18 min...
+2026-04-21 08:57:45,525  INFO      Market opens at 09:15. Waiting 17 min...
+2026-04-21 08:58:45,533  INFO      Market opens at 09:15. Waiting 16 min...
+2026-04-21 08:59:45,542  INFO      Market opens at 09:15. Waiting 15 min...
+2026-04-21 09:00:45,551  INFO      Market opens at 09:15. Waiting 14 min...
+2026-04-21 09:01:45,560  INFO      Market opens at 09:15. Waiting 13 min...
+2026-04-21 09:02:45,568  INFO      Market opens at 09:15. Waiting 12 min...
+2026-04-21 09:03:45,574  INFO      Market opens at 09:15. Waiting 11 min...
+2026-04-21 09:04:45,586  INFO      Market opens at 09:15. Waiting 10 min...
+2026-04-21 09:05:45,597  INFO      Market opens at 09:15. Waiting 9 min...
+2026-04-21 09:06:45,607  INFO      Market opens at 09:15. Waiting 8 min...
+2026-04-21 09:07:45,623  INFO      Market opens at 09:15. Waiting 7 min...
+2026-04-21 09:08:45,632  INFO      Market opens at 09:15. Waiting 6 min...
+2026-04-21 09:09:45,638  INFO      Market opens at 09:15. Waiting 5 min...
+2026-04-21 09:10:45,647  INFO      Market opens at 09:15. Waiting 4 min...
+2026-04-21 09:11:45,654  INFO      Market opens at 09:15. Waiting 3 min...
+2026-04-21 09:12:45,662  INFO      Market opens at 09:15. Waiting 2 min...
+2026-04-21 09:13:45,673  INFO      Market opens at 09:15. Waiting 1 min...
+2026-04-21 09:14:45,683  INFO      Market opens at 09:15. Waiting 0 min...
+2026-04-21 09:15:00,688  INFO      Market open. Algo running...
+2026-04-21 09:15:01,036  INFO      Candle 2026-04-20 15:25:00+05:30 | Close=24330.90 | EMA8=24359.97 EMA30=24392.66 | ADX=36.6 Dir=SELL
+2026-04-21 09:15:01,037  INFO      Paused: Opening volatility window (09:15–09:45)
+2026-04-21 09:15:16,142  INFO      Candle 2026-04-21 09:15:00+05:30 | Close=24384.70 | EMA8=24365.47 EMA30=24392.14 | ADX=31.9 Dir=SELL
+2026-04-21 09:15:16,143  INFO      Paused: Opening volatility window (09:15–09:45)
+2026-04-21 09:20:05,508  INFO      Candle 2026-04-21 09:20:00+05:30 | Close=24474.40 | EMA8=24404.23 EMA30=24402.53 | ADX=36.9 Dir=BUY
+2026-04-21 09:20:05,510  INFO      Paused: Opening volatility window (09:15–09:45)
+2026-04-21 09:25:17,041  INFO      Candle 2026-04-21 09:25:00+05:30 | Close=24461.30 | EMA8=24415.29 EMA30=24405.76 | ADX=38.0 Dir=BUY
+2026-04-21 09:25:17,045  INFO      Paused: Opening volatility window (09:15–09:45)
+2026-04-21 09:30:06,647  INFO      Candle 2026-04-21 09:30:00+05:30 | Close=24450.15 | EMA8=24420.94 EMA30=24407.89 | ADX=37.1 Dir=BUY
+2026-04-21 09:30:06,648  INFO      Paused: Opening volatility window (09:15–09:45)
+2026-04-21 09:35:06,877  INFO      Candle 2026-04-21 09:35:00+05:30 | Close=24461.90 | EMA8=24432.00 EMA30=24412.06 | ADX=35.7 Dir=BUY
+2026-04-21 09:35:06,878  INFO      Paused: Opening volatility window (09:15–09:45)
+2026-04-21 09:40:15,504  INFO      Candle 2026-04-21 09:40:00+05:30 | Close=24469.80 | EMA8=24441.75 EMA30=24416.25 | ADX=36.5 Dir=BUY
+2026-04-21 09:40:15,509  INFO      Paused: Opening volatility window (09:15–09:45)
+2026-04-21 09:45:13,286  INFO      Candle 2026-04-21 09:45:00+05:30 | Close=24471.60 | EMA8=24447.83 EMA30=24419.63 | ADX=34.4 Dir=BUY
+2026-04-21 09:45:13,289  INFO      PAPER ORDER #1 | BUY NIFTY26042324450CE | Entry=24473.95 SL=24463.95 Target=24503.95 RR=1:3
+2026-04-21 09:45:13,289  INFO      =============================================   [BUY] PAPER TRADE #1 — ENTRY   Symbol    : NIFTY26042324450CE   Type      : Retest   Entry     : Rs.24473.95   Stop Loss : Rs.24463.95   Target    : Rs.24503.95  (1:3)   Qty       : 300   Time      : 09:45:13 =============================================
+2026-04-21 09:50:11,177  INFO      Candle 2026-04-21 09:50:00+05:30 | Close=24503.30 | EMA8=24465.31 EMA30=24426.83 | ADX=37.6 Dir=BUY
+2026-04-21 09:53:48,312  INFO      OI refreshed | None
+2026-04-21 09:55:09,111  INFO      Candle 2026-04-21 09:55:00+05:30 | Close=24497.45 | EMA8=24471.72 EMA30=24431.13 | ADX=38.7 Dir=BUY
+2026-04-21 10:00:07,629  INFO      Candle 2026-04-21 10:00:00+05:30 | Close=24502.00 | EMA8=24478.88 EMA30=24435.85 | ADX=39.7 Dir=BUY
+2026-04-21 10:05:05,871  INFO      Candle 2026-04-21 10:05:00+05:30 | Close=24516.40 | EMA8=24489.80 EMA30=24441.95 | ADX=42.1 Dir=BUY
+2026-04-21 10:05:05,875  INFO      TRADE CLOSED #1 | TARGET_HIT | Exit=24503.95 PnL=+9000.00 DayPnL=+9000.00
+2026-04-21 10:05:05,875  INFO      =============================================   WIN — TARGET HIT — Trade #1   Exit Price: Rs.24503.95   PnL       : +Rs.9000.00   Exit Time : 10:05:05 =============================================
+2026-04-21 10:10:15,425  INFO      Candle 2026-04-21 10:10:00+05:30 | Close=24520.40 | EMA8=24497.78 EMA30=24447.42 | ADX=44.2 Dir=BUY
+2026-04-21 10:15:15,750  INFO      Candle 2026-04-21 10:15:00+05:30 | Close=24517.40 | EMA8=24500.94 EMA30=24451.52 | ADX=45.7 Dir=BUY
+2026-04-21 10:15:15,752  INFO      PAPER ORDER #2 | BUY NIFTY26042324500CE | Entry=24518.6 SL=24511.3 Target=24540.5 RR=1:3
+2026-04-21 10:15:15,753  INFO      =============================================   [BUY] PAPER TRADE #2 — ENTRY   Symbol    : NIFTY26042324500CE   Type      : Retest   Entry     : Rs.24518.6   Stop Loss : Rs.24511.3   Target    : Rs.24540.5  (1:3)   Qty       : 435   Time      : 10:15:15 =============================================
+2026-04-21 10:20:14,856  INFO      Candle 2026-04-21 10:20:00+05:30 | Close=24504.55 | EMA8=24499.91 EMA30=24454.30 | ADX=44.1 Dir=BUY
+2026-04-21 10:20:14,859  INFO      TRADE CLOSED #2 | SL_HIT | Exit=24511.3 PnL=-3175.50 DayPnL=+5824.50
+2026-04-21 10:20:14,860  INFO      =============================================   LOSS — SL HIT — Trade #2   Exit Price: Rs.24511.3   PnL       : -Rs.3175.50   Exit Time : 10:20:14 =============================================
+2026-04-21 10:25:02,609  INFO      Candle 2026-04-21 10:25:00+05:30 | Close=24499.15 | EMA8=24498.88 EMA30=24456.89 | ADX=40.9 Dir=BUY
+2026-04-21 10:30:10,334  INFO      Candle 2026-04-21 10:30:00+05:30 | Close=24494.40 | EMA8=24496.93 EMA30=24458.98 | ADX=36.6 Dir=BUY
+2026-04-21 10:30:10,336  INFO      PAPER ORDER #3 | BUY NIFTY26042324500CE | Entry=24496.25 SL=24492.05 Target=24508.85 RR=1:3
+2026-04-21 10:30:10,337  INFO      =============================================   [BUY] PAPER TRADE #3 — ENTRY   Symbol    : NIFTY26042324500CE   Type      : Retest   Entry     : Rs.24496.25   Stop Loss : Rs.24492.05   Target    : Rs.24508.85  (1:3)   Qty       : 742   Time      : 10:30:10 =============================================
+2026-04-21 10:35:07,853  INFO      Candle 2026-04-21 10:35:00+05:30 | Close=24528.05 | EMA8=24509.62 EMA30=24465.45 | ADX=39.7 Dir=BUY
+2026-04-21 10:35:07,855  INFO      TRADE CLOSED #3 | TARGET_HIT | Exit=24508.85 PnL=+9349.20 DayPnL=+15173.70
+2026-04-21 10:35:07,855  INFO      =============================================   WIN — TARGET HIT — Trade #3   Exit Price: Rs.24508.85   PnL       : +Rs.9349.20   Exit Time : 10:35:07 =============================================
+2026-04-21 10:40:15,471  INFO      Candle 2026-04-21 10:40:00+05:30 | Close=24530.55 | EMA8=24514.91 EMA30=24469.87 | ADX=40.8 Dir=BUY
+2026-04-21 10:45:04,781  INFO      Candle 2026-04-21 10:45:00+05:30 | Close=24527.85 | EMA8=24517.35 EMA30=24473.46 | ADX=38.1 Dir=BUY
+2026-04-21 10:50:14,190  INFO      Candle 2026-04-21 10:50:00+05:30 | Close=24524.30 | EMA8=24518.54 EMA30=24476.62 | ADX=37.2 Dir=BUY
+2026-04-21 10:53:51,885  INFO      OI refreshed | None
+2026-04-21 10:55:12,726  INFO      Candle 2026-04-21 10:55:00+05:30 | Close=24543.10 | EMA8=24527.12 EMA30=24482.00 | ADX=38.8 Dir=BUY
+2026-04-21 11:00:10,594  INFO      Candle 2026-04-21 11:00:00+05:30 | Close=24551.45 | EMA8=24533.59 EMA30=24486.85 | ADX=42.0 Dir=BUY
+2026-04-21 11:05:08,417  INFO      Candle 2026-04-21 11:05:00+05:30 | Close=24553.40 | EMA8=24538.17 EMA30=24491.21 | ADX=42.5 Dir=BUY
+2026-04-21 11:05:08,420  INFO      Order blocked: MAX_TRADES_REACHED
+2026-04-21 11:10:06,084  INFO      Candle 2026-04-21 11:10:00+05:30 | Close=24551.90 | EMA8=24541.34 EMA30=24495.16 | ADX=44.6 Dir=BUY
+2026-04-21 11:10:06,086  INFO      Order blocked: MAX_TRADES_REACHED
+2026-04-21 11:15:03,903  INFO      Candle 2026-04-21 11:15:00+05:30 | Close=24555.10 | EMA8=24545.18 EMA30=24499.30 | ADX=43.3 Dir=BUY
+2026-04-21 11:20:11,759  INFO      Candle 2026-04-21 11:20:00+05:30 | Close=24550.15 | EMA8=24545.58 EMA30=24502.34 | ADX=43.3 Dir=BUY
+2026-04-21 11:21:43,281  INFO      =======================================================
+2026-04-21 11:21:43,281  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 11:21:43,281  INFO      =======================================================
+2026-04-21 11:21:43,551  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 11:21:43,551  INFO      Running pre-market checks...
+2026-04-21 11:21:45,151  INFO      India VIX: 17.63
+2026-04-21 11:21:45,154  INFO      VIX=17.63 — normal conditions, safe to trade
+2026-04-21 11:21:45,154  INFO      VIX: VIX=17.63 — normal conditions, safe to trade
+2026-04-21 11:21:45,686  INFO      Pre-market OK | VIX=17.63 | OI bias=N/A
+2026-04-21 11:21:45,686  INFO      Market open. Algo running...
+2026-04-21 11:21:45,750  INFO      Candle 2026-04-21 11:20:00+05:30 | Close=24547.50 | EMA8=24545.00 EMA30=24502.17 | ADX=43.3 Dir=BUY
+2026-04-21 11:25:02,429  INFO      Candle 2026-04-21 11:25:00+05:30 | Close=24540.95 | EMA8=24543.10 EMA30=24504.32 | ADX=37.0 Dir=BUY
+2026-04-21 11:26:10,860  INFO      =======================================================
+2026-04-21 11:26:10,860  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 11:26:10,860  INFO      =======================================================
+2026-04-21 11:26:11,144  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 11:26:11,145  INFO      Running pre-market checks...
+2026-04-21 11:26:12,819  INFO      India VIX: 17.64
+2026-04-21 11:26:12,821  INFO      VIX=17.64 — normal conditions, safe to trade
+2026-04-21 11:26:12,821  INFO      VIX: VIX=17.64 — normal conditions, safe to trade
+2026-04-21 11:26:13,249  INFO      Pre-market OK | VIX=17.64 | OI bias=N/A
+2026-04-21 11:26:13,249  INFO      Market open. Algo running...
+2026-04-21 11:26:13,357  INFO      Candle 2026-04-21 11:25:00+05:30 | Close=24541.85 | EMA8=24543.30 EMA30=24504.38 | ADX=37.0 Dir=BUY
+2026-04-21 11:26:13,990  WARNING   Option price fetch failed: 'records'
+2026-04-21 11:26:13,993  WARNING   Option price unavailable — skipping trade
+2026-04-21 11:30:11,278  INFO      Candle 2026-04-21 11:30:00+05:30 | Close=24537.95 | EMA8=24541.66 EMA30=24506.39 | ADX=31.9 Dir=BUY
+2026-04-21 11:30:11,786  WARNING   Option price fetch failed: 'records'
+2026-04-21 11:30:11,804  WARNING   Option price unavailable — skipping trade
+2026-04-21 11:35:09,534  INFO      Candle 2026-04-21 11:35:00+05:30 | Close=24516.50 | EMA8=24532.57 EMA30=24505.82 | ADX=30.5 Dir=BUY
+2026-04-21 11:40:07,269  INFO      Candle 2026-04-21 11:40:00+05:30 | Close=24522.65 | EMA8=24531.80 EMA30=24507.40 | ADX=29.4 Dir=BUY
+2026-04-21 11:45:05,022  INFO      Candle 2026-04-21 11:45:00+05:30 | Close=24527.85 | EMA8=24531.84 EMA30=24509.05 | ADX=28.0 Dir=BUY
+2026-04-21 11:50:13,057  INFO      Candle 2026-04-21 11:50:00+05:30 | Close=24531.05 | EMA8=24532.09 EMA30=24510.61 | ADX=24.7 Dir=BUY
+2026-04-21 11:50:13,442  WARNING   Option price fetch failed: 'records'
+2026-04-21 11:50:13,443  WARNING   Option price unavailable — skipping trade
+2026-04-21 11:51:40,446  INFO      =======================================================
+2026-04-21 11:51:40,447  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 11:51:40,447  INFO      =======================================================
+2026-04-21 11:51:40,718  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 11:51:40,719  INFO      Running pre-market checks...
+2026-04-21 11:51:42,177  INFO      India VIX: 17.69
+2026-04-21 11:51:42,180  INFO      VIX=17.69 — normal conditions, safe to trade
+2026-04-21 11:51:42,180  INFO      VIX: VIX=17.69 — normal conditions, safe to trade
+2026-04-21 11:51:42,866  INFO      Pre-market OK | VIX=17.69 | OI bias=N/A
+2026-04-21 11:51:42,867  INFO      Market open. Algo running...
+2026-04-21 11:51:42,942  INFO      Candle 2026-04-21 11:50:00+05:30 | Close=24530.50 | EMA8=24531.97 EMA30=24510.58 | ADX=24.1 Dir=BUY
+2026-04-21 11:51:43,780  INFO      NFO instruments refreshed from Kite
+2026-04-21 11:51:43,788  INFO      Expiry day — using next expiry: 2026-04-28
+2026-04-21 11:51:43,842  INFO      Option | NIFTY26APR24550CE | LTP=243.45 Bid=242.75 Ask=243.45 OI=611,260 Vol=2,905,045 Lot=65 LotValue=Rs.15824
+2026-04-21 11:51:43,842  INFO      Option trade | NIFTY26APR24550CE | LTP=243.45 SL=238.72 Target=257.63 | Lots=9 Qty=585 LotValue=Rs.15824.25
+2026-04-21 11:51:43,842  INFO      PAPER ORDER #1 | BUY NIFTY26APR24550CE | Entry=243.45 SL=238.72 Target=257.63 RR=1:3
+2026-04-21 11:51:43,842  INFO      ==================================================   [BUY] PAPER TRADE #1 — ENTRY   Symbol       : NIFTY26APR24550CE   Type         : Retest   Nifty Spot   : Rs.24533.05   Option Premium: Rs.243.45  per unit   Option SL    : Rs.238.72   Option Target: Rs.257.63  (1:3)   Lots x Size  : 9 lots x 65 = 585 qty   Total Cost   : Rs.142,418.25  (kitne ka sauda)   Time         : 11:51:43 ==================================================
+2026-04-21 11:55:11,209  INFO      Candle 2026-04-21 11:55:00+05:30 | Close=24528.85 | EMA8=24530.71 EMA30=24511.56 | ADX=20.4 Dir=BUY
+2026-04-21 11:55:11,769  INFO      Candle 2026-04-21 11:55:00+05:30 | Close=24528.85 | EMA8=24530.71 EMA30=24511.56 | ADX=20.4 Dir=BUY
+2026-04-21 11:55:12,292  WARNING   Option price fetch failed: 'records'
+2026-04-21 11:55:12,296  WARNING   Option price unavailable — skipping trade
+2026-04-21 12:00:08,939  INFO      Candle 2026-04-21 12:00:00+05:30 | Close=24530.20 | EMA8=24531.08 EMA30=24512.93 | ADX=20.0 Dir=BUY
+2026-04-21 12:00:11,218  INFO      Candle 2026-04-21 12:00:00+05:30 | Close=24530.20 | EMA8=24531.08 EMA30=24512.93 | ADX=20.0 Dir=BUY
+2026-04-21 12:00:47,190  INFO      =======================================================
+2026-04-21 12:00:47,190  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 12:00:47,190  INFO      =======================================================
+2026-04-21 12:00:47,573  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 12:00:47,573  INFO      Running pre-market checks...
+2026-04-21 12:00:49,602  INFO      India VIX: 17.7
+2026-04-21 12:00:49,603  INFO      VIX=17.70 — normal conditions, safe to trade
+2026-04-21 12:00:49,603  INFO      VIX: VIX=17.70 — normal conditions, safe to trade
+2026-04-21 12:00:50,076  INFO      Pre-market OK | VIX=17.7 | OI bias=N/A
+2026-04-21 12:00:50,076  INFO      Market open. Algo running...
+2026-04-21 12:00:50,159  INFO      Candle 2026-04-21 12:00:00+05:30 | Close=24533.25 | EMA8=24531.76 EMA30=24513.13 | ADX=20.0 Dir=BUY
+2026-04-21 12:02:16,376  INFO      =======================================================
+2026-04-21 12:02:16,377  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 12:02:16,377  INFO      =======================================================
+2026-04-21 12:02:16,655  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 12:02:16,655  INFO      Running pre-market checks...
+2026-04-21 12:02:18,084  INFO      India VIX: 17.7
+2026-04-21 12:02:18,087  INFO      VIX=17.70 — normal conditions, safe to trade
+2026-04-21 12:02:18,087  INFO      VIX: VIX=17.70 — normal conditions, safe to trade
+2026-04-21 12:02:18,598  INFO      Pre-market OK | VIX=17.7 | OI bias=N/A
+2026-04-21 12:02:18,599  INFO      Market open. Algo running...
+2026-04-21 12:02:18,672  INFO      Candle 2026-04-21 12:00:00+05:30 | Close=24536.60 | EMA8=24532.51 EMA30=24513.35 | ADX=20.0 Dir=BUY
+2026-04-21 12:05:07,569  INFO      Candle 2026-04-21 12:05:00+05:30 | Close=24540.70 | EMA8=24534.98 EMA30=24515.34 | ADX=20.4 Dir=BUY
+2026-04-21 12:05:08,432  INFO      NFO instruments refreshed from Kite
+2026-04-21 12:05:08,440  INFO      Expiry day — using next expiry: 2026-04-28
+2026-04-21 12:05:08,496  INFO      Option | NIFTY26APR24550CE | LTP=249.9 Bid=249.15 Ask=249.85 OI=629,655 Vol=3,098,160 Lot=65 LotValue=Rs.16244
+2026-04-21 12:05:08,496  INFO      Option trade | NIFTY26APR24550CE | LTP=249.9 SL=247.83 Target=256.13 | Lots=22 Qty=1430 LotValue=Rs.16243.5
+2026-04-21 12:05:08,496  INFO      PAPER ORDER #1 | BUY NIFTY26APR24550CE | Entry=249.9 SL=247.83 Target=256.13 RR=1:3
+2026-04-21 12:05:08,496  INFO      ==================================================   [BUY] PAPER TRADE #1 — ENTRY   Symbol       : NIFTY26APR24550CE   Type         : Retest   Nifty Spot   : Rs.24542.55   Option Premium: Rs.249.9  per unit   Option SL    : Rs.247.83   Option Target: Rs.256.13  (1:3)   Lots x Size  : 22 lots x 65 = 1430 qty   Total Cost   : Rs.357,357.00  (kitne ka sauda)   Time         : 12:05:08 ==================================================
+2026-04-21 12:05:15,320  INFO      Candle 2026-04-21 12:05:00+05:30 | Close=24539.55 | EMA8=24534.73 EMA30=24515.27 | ADX=20.4 Dir=BUY
+2026-04-21 12:09:09,966  INFO      =======================================================
+2026-04-21 12:09:09,966  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 12:09:09,966  INFO      =======================================================
+2026-04-21 12:09:10,320  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 12:09:10,321  INFO      Running pre-market checks...
+2026-04-21 12:09:11,730  INFO      India VIX: 17.63
+2026-04-21 12:09:11,735  INFO      VIX=17.63 — normal conditions, safe to trade
+2026-04-21 12:09:11,736  INFO      VIX: VIX=17.63 — normal conditions, safe to trade
+2026-04-21 12:09:12,462  INFO      Pre-market OK | VIX=17.63 | OI bias=N/A
+2026-04-21 12:09:12,463  INFO      Market open. Algo running...
+2026-04-21 12:09:12,541  INFO      Candle 2026-04-21 12:05:00+05:30 | Close=24545.05 | EMA8=24535.95 EMA30=24515.62 | ADX=21.7 Dir=BUY
+2026-04-21 12:10:06,171  INFO      Candle 2026-04-21 12:10:00+05:30 | Close=24545.25 | EMA8=24537.77 EMA30=24517.45 | ADX=22.3 Dir=BUY
+2026-04-21 12:10:07,995  INFO      Candle 2026-04-21 12:10:00+05:30 | Close=24545.25 | EMA8=24537.77 EMA30=24517.45 | ADX=22.3 Dir=BUY
+2026-04-21 12:15:04,106  INFO      Candle 2026-04-21 12:15:00+05:30 | Close=24558.20 | EMA8=24544.69 EMA30=24520.91 | ADX=28.7 Dir=BUY
+2026-04-21 12:15:04,162  INFO      TRADE CLOSED #1 | TARGET_HIT | OptExit=258.15 PnL=+11797.50 DayPnL=+11797.50
+2026-04-21 12:15:04,163  INFO      ==================================================   WIN — TARGET HIT — Trade #1   Bought For  : Rs.357,357.00  (total cost)   Sold For    : Rs.369,154.50  (total exit value)   Exit Price  : Rs.258.15  per unit   PnL         : +Rs.11797.50   Exit Time   : 12:15:04 ==================================================
+2026-04-21 12:15:05,696  INFO      Candle 2026-04-21 12:15:00+05:30 | Close=24558.20 | EMA8=24544.69 EMA30=24520.91 | ADX=28.7 Dir=BUY
+2026-04-21 12:20:03,461  INFO      Candle 2026-04-21 12:20:00+05:30 | Close=24560.50 | EMA8=24548.80 EMA30=24523.67 | ADX=31.5 Dir=BUY
+2026-04-21 12:20:13,010  INFO      Candle 2026-04-21 12:20:00+05:30 | Close=24559.30 | EMA8=24548.53 EMA30=24523.59 | ADX=31.6 Dir=BUY
+2026-04-21 12:25:10,841  INFO      Candle 2026-04-21 12:25:00+05:30 | Close=24557.25 | EMA8=24550.40 EMA30=24525.74 | ADX=35.9 Dir=BUY
+2026-04-21 12:25:11,363  INFO      Candle 2026-04-21 12:25:00+05:30 | Close=24557.25 | EMA8=24550.40 EMA30=24525.74 | ADX=35.9 Dir=BUY
+2026-04-21 12:30:08,480  INFO      Candle 2026-04-21 12:30:00+05:30 | Close=24551.50 | EMA8=24548.91 EMA30=24526.79 | ADX=32.2 Dir=BUY
+2026-04-21 12:30:08,500  INFO      Expiry day — using next expiry: 2026-04-28
+2026-04-21 12:30:08,556  INFO      Option | NIFTY26APR24550CE | LTP=259.9 Bid=259.2 Ask=259.6 OI=725,855 Vol=3,881,020 Lot=65 LotValue=Rs.16894
+2026-04-21 12:30:08,556  INFO      Option trade | NIFTY26APR24550CE | LTP=259.9 SL=256.73 Target=269.42 | Lots=15 Qty=975 LotValue=Rs.16893.5
+2026-04-21 12:30:08,556  INFO      PAPER ORDER #2 | BUY NIFTY26APR24550CE | Entry=259.9 SL=256.73 Target=269.42 RR=1:3
+2026-04-21 12:30:08,557  INFO      ==================================================   [BUY] PAPER TRADE #2 — ENTRY   Symbol       : NIFTY26APR24550CE   Type         : Retest   Nifty Spot   : Rs.24552.0   Option Premium: Rs.259.9  per unit   Option SL    : Rs.256.73   Option Target: Rs.269.42  (1:3)   Lots x Size  : 15 lots x 65 = 975 qty   Total Cost   : Rs.253,402.50  (kitne ka sauda)   Time         : 12:30:08 ==================================================
+2026-04-21 12:30:09,252  INFO      Candle 2026-04-21 12:30:00+05:30 | Close=24551.50 | EMA8=24548.91 EMA30=24526.79 | ADX=32.2 Dir=BUY
+2026-04-21 12:30:10,130  INFO      NFO instruments refreshed from Kite
+2026-04-21 12:30:10,140  INFO      Expiry day — using next expiry: 2026-04-28
+2026-04-21 12:30:10,229  INFO      Option | NIFTY26APR24550CE | LTP=259.35 Bid=259.3 Ask=259.5 OI=725,855 Vol=3,881,280 Lot=65 LotValue=Rs.16858
+2026-04-21 12:30:10,230  INFO      Option trade | NIFTY26APR24550CE | LTP=259.35 SL=256.18 Target=268.87 | Lots=14 Qty=910 LotValue=Rs.16857.75
+2026-04-21 12:30:10,230  INFO      PAPER ORDER #1 | BUY NIFTY26APR24550CE | Entry=259.35 SL=256.18 Target=268.87 RR=1:3
+2026-04-21 12:30:10,230  INFO      ==================================================   [BUY] PAPER TRADE #1 — ENTRY   Symbol       : NIFTY26APR24550CE   Type         : Retest   Nifty Spot   : Rs.24552.0   Option Premium: Rs.259.35  per unit   Option SL    : Rs.256.18   Option Target: Rs.268.87  (1:3)   Lots x Size  : 14 lots x 65 = 910 qty   Total Cost   : Rs.236,008.50  (kitne ka sauda)   Time         : 12:30:10 ==================================================
+2026-04-21 12:35:06,147  INFO      Candle 2026-04-21 12:35:00+05:30 | Close=24548.40 | EMA8=24548.18 EMA30=24527.97 | ADX=33.9 Dir=BUY
+2026-04-21 12:35:07,945  INFO      Candle 2026-04-21 12:35:00+05:30 | Close=24548.40 | EMA8=24548.18 EMA30=24527.97 | ADX=33.9 Dir=BUY
+2026-04-21 12:40:04,903  INFO      Candle 2026-04-21 12:40:00+05:30 | Close=24555.40 | EMA8=24550.93 EMA30=24530.14 | ADX=34.3 Dir=BUY
+2026-04-21 12:40:05,989  INFO      Candle 2026-04-21 12:40:00+05:30 | Close=24555.65 | EMA8=24550.98 EMA30=24530.16 | ADX=34.3 Dir=BUY
+2026-04-21 12:45:02,479  INFO      Candle 2026-04-21 12:45:00+05:30 | Close=24552.40 | EMA8=24550.76 EMA30=24531.41 | ADX=34.1 Dir=BUY
+2026-04-21 12:45:03,616  INFO      Candle 2026-04-21 12:45:00+05:30 | Close=24552.40 | EMA8=24550.76 EMA30=24531.41 | ADX=34.1 Dir=BUY
+2026-04-21 12:48:01,278  INFO      =======================================================
+2026-04-21 12:48:01,278  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 12:48:01,278  INFO      =======================================================
+2026-04-21 12:48:01,645  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 12:48:01,646  INFO      Running pre-market checks...
+2026-04-21 12:48:03,176  INFO      India VIX: 17.74
+2026-04-21 12:48:03,178  INFO      VIX=17.74 — normal conditions, safe to trade
+2026-04-21 12:48:03,178  INFO      VIX: VIX=17.74 — normal conditions, safe to trade
+2026-04-21 12:48:03,690  INFO      Pre-market OK | VIX=17.74 | OI bias=N/A
+2026-04-21 12:48:03,690  INFO      Market open. Algo running...
+2026-04-21 12:48:03,796  INFO      Candle 2026-04-21 12:45:00+05:30 | Close=24532.70 | EMA8=24546.38 EMA30=24530.13 | ADX=29.5 Dir=BUY
+2026-04-21 12:48:31,277  INFO      =======================================================
+2026-04-21 12:48:31,277  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 12:48:31,277  INFO      =======================================================
+2026-04-21 12:48:31,554  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 12:48:31,555  INFO      Running pre-market checks...
+2026-04-21 12:48:33,045  INFO      India VIX: 17.75
+2026-04-21 12:48:33,060  INFO      VIX=17.75 — normal conditions, safe to trade
+2026-04-21 12:48:33,066  INFO      VIX: VIX=17.75 — normal conditions, safe to trade
+2026-04-21 12:48:33,571  INFO      Pre-market OK | VIX=17.75 | OI bias=N/A
+2026-04-21 12:48:33,572  INFO      Market open. Algo running...
+2026-04-21 12:48:33,656  INFO      Candle 2026-04-21 12:45:00+05:30 | Close=24533.95 | EMA8=24546.66 EMA30=24530.22 | ADX=29.5 Dir=BUY
+2026-04-21 12:50:09,622  INFO      Candle 2026-04-21 12:50:00+05:30 | Close=24539.20 | EMA8=24545.90 EMA30=24531.11 | ADX=25.7 Dir=BUY
+2026-04-21 12:50:09,955  INFO      Candle 2026-04-21 12:50:00+05:30 | Close=24539.20 | EMA8=24545.90 EMA30=24531.11 | ADX=25.7 Dir=BUY
+2026-04-21 12:50:10,482  INFO      NFO instruments refreshed from Kite
+2026-04-21 12:50:10,492  INFO      Expiry day — using next expiry: 2026-04-28
+2026-04-21 12:50:10,554  INFO      Option | NIFTY26APR24550CE | LTP=247.7 Bid=247.05 Ask=247.45 OI=793,455 Vol=4,223,440 Lot=65 LotValue=Rs.16100
+2026-04-21 12:50:10,554  INFO      Option trade | NIFTY26APR24550CE | LTP=247.7 SL=245.47 Target=254.38 | Lots=2 Qty=130 LotValue=Rs.16100.5
+2026-04-21 12:50:10,554  INFO      PAPER ORDER #1 | BUY NIFTY26APR24550CE | Entry=247.7 SL=245.47 Target=254.38 RR=1:3
+2026-04-21 12:50:10,554  INFO      ==================================================   [BUY] PAPER TRADE #1 — ENTRY   Symbol       : NIFTY26APR24550CE   Type         : Retest   Nifty Spot   : Rs.24541.55   Option Premium: Rs.247.7  per unit   Option SL    : Rs.245.47   Option Target: Rs.254.38  (1:3)   Lots x Size  : 2 lots x 65 = 130 qty   Total Cost   : Rs.32,201.00  (kitne ka sauda)   Time         : 12:50:10 ==================================================
+2026-04-21 12:50:10,764  INFO      NFO instruments refreshed from Kite
+2026-04-21 12:50:10,774  INFO      Expiry day — using next expiry: 2026-04-28
+2026-04-21 12:50:10,827  INFO      Option | NIFTY26APR24550CE | LTP=247.45 Bid=247.2 Ask=247.45 OI=793,455 Vol=4,223,765 Lot=65 LotValue=Rs.16084
+2026-04-21 12:50:10,828  INFO      Option trade | NIFTY26APR24550CE | LTP=247.45 SL=245.22 Target=254.13 | Lots=2 Qty=130 LotValue=Rs.16084.25
+2026-04-21 12:50:10,828  INFO      PAPER ORDER #1 | BUY NIFTY26APR24550CE | Entry=247.45 SL=245.22 Target=254.13 RR=1:3
+2026-04-21 12:50:10,828  INFO      ==================================================   [BUY] PAPER TRADE #1 — ENTRY   Symbol       : NIFTY26APR24550CE   Type         : Retest   Nifty Spot   : Rs.24541.55   Option Premium: Rs.247.45  per unit   Option SL    : Rs.245.22   Option Target: Rs.254.13  (1:3)   Lots x Size  : 2 lots x 65 = 130 qty   Total Cost   : Rs.32,168.50  (kitne ka sauda)   Time         : 12:50:10 ==================================================
+2026-04-21 12:51:33,942  INFO      =======================================================
+2026-04-21 12:51:33,943  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 12:51:33,943  INFO      =======================================================
+2026-04-21 12:51:34,293  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 12:51:34,293  INFO      Running pre-market checks...
+2026-04-21 12:51:35,776  INFO      India VIX: 17.74
+2026-04-21 12:51:35,778  INFO      VIX=17.74 — normal conditions, safe to trade
+2026-04-21 12:51:35,778  INFO      VIX: VIX=17.74 — normal conditions, safe to trade
+2026-04-21 12:51:36,215  INFO      Pre-market OK | VIX=17.74 | OI bias=N/A
+2026-04-21 12:51:36,215  INFO      Market open. Algo running...
+2026-04-21 12:51:36,293  INFO      Candle 2026-04-21 12:50:00+05:30 | Close=24531.20 | EMA8=24544.12 EMA30=24530.59 | ADX=26.7 Dir=BUY
+2026-04-21 12:54:23,283  INFO      =======================================================
+2026-04-21 12:54:23,283  INFO        8-30 EMA ALGO TRADER — PAPER TRADING MODE
+2026-04-21 12:54:23,283  INFO      =======================================================
+2026-04-21 12:54:23,625  INFO      Instrument=NIFTY Token=256265 Interval=5minute
+2026-04-21 12:54:23,626  INFO      Running pre-market checks...
+2026-04-21 12:54:25,118  INFO      India VIX: 17.75
+2026-04-21 12:54:25,121  INFO      VIX=17.75 — normal conditions, safe to trade
+2026-04-21 12:54:25,121  INFO      VIX: VIX=17.75 — normal conditions, safe to trade
+2026-04-21 12:54:25,531  INFO      Pre-market OK | VIX=17.75 | OI bias=N/A
+2026-04-21 12:54:25,531  INFO      Market open. Algo running...
+2026-04-21 12:54:25,602  INFO      Candle 2026-04-21 12:50:00+05:30 | Close=24541.00 | EMA8=24546.30 EMA30=24531.23 | ADX=26.7 Dir=BUY
+2026-04-21 12:54:26,443  INFO      NFO instruments refreshed from Kite
+2026-04-21 12:54:26,451  INFO      Expiry day — using next expiry: 2026-04-28
+2026-04-21 12:54:26,503  INFO      Option | NIFTY26APR24550CE | LTP=248.0 Bid=247.85 Ask=248.0 OI=808,535 Vol=4,288,245 Lot=65 LotValue=Rs.16120
+2026-04-21 12:54:26,503  INFO      Option trade | NIFTY26APR24550CE | LTP=248.0 SL=237.8 Target=278.6 | Lots=2 Qty=130 LotValue=Rs.16120.0
+2026-04-21 12:54:26,503  INFO      PAPER ORDER #1 | BUY NIFTY26APR24550CE | Entry=248.0 SL=237.8 Target=278.6 RR=1:3
+2026-04-21 12:54:26,503  INFO      ==================================================   PAPER TRADE #1 — ENTRY   Action       : CALL (CE) — BUY   Symbol       : NIFTY26APR24550CE   Signal Type  : Retest   Nifty Spot   : Rs.24546.1   Option LTP   : Rs.248.0  (Bid:247.85 / Ask:248.0)   Option SL    : Rs.237.8   Option Target: Rs.278.6  (1:3)   Lots x Size  : 2 lots x 65 = 130 qty   Total Cost   : Rs.32,240.00   Time         : 12:54:26 ==================================================
+2026-04-21 12:55:11,882  INFO      Candle 2026-04-21 12:55:00+05:30 | Close=24541.05 | EMA8=24544.94 EMA30=24531.79 | ADX=24.3 Dir=BUY
+2026-04-21 13:00:09,667  INFO      Candle 2026-04-21 13:00:00+05:30 | Close=24539.50 | EMA8=24543.19 EMA30=24532.10 | ADX=20.2 Dir=BUY
+2026-04-21 13:05:07,449  INFO      Candle 2026-04-21 13:05:00+05:30 | Close=24529.05 | EMA8=24538.28 EMA30=24531.28 | ADX=19.3 Dir=BUY
+2026-04-21 13:10:06,333  INFO      Candle 2026-04-21 13:10:00+05:30 | Close=24530.65 | EMA8=24537.07 EMA30=24531.42 | ADX=18.3 Dir=BUY
+2026-04-21 13:15:04,005  INFO      Candle 2026-04-21 13:15:00+05:30 | Close=24540.70 | EMA8=24539.62 EMA30=24532.62 | ADX=15.8 Dir=BUY
+2026-04-21 13:20:11,946  INFO      Candle 2026-04-21 13:20:00+05:30 | Close=24541.95 | EMA8=24540.35 EMA30=24533.30 | ADX=19.0 Dir=BUY
+2026-04-21 13:25:09,697  INFO      Candle 2026-04-21 13:25:00+05:30 | Close=24540.65 | EMA8=24540.08 EMA30=24533.65 | ADX=17.1 Dir=BUY
+2026-04-21 13:30:07,664  INFO      Candle 2026-04-21 13:30:00+05:30 | Close=24552.65 | EMA8=24544.90 EMA30=24535.59 | ADX=18.7 Dir=BUY
+2026-04-21 13:35:15,469  INFO      Candle 2026-04-21 13:35:00+05:30 | Close=24569.60 | EMA8=24553.12 EMA30=24538.73 | ADX=24.9 Dir=BUY
+2026-04-21 13:40:03,611  INFO      Candle 2026-04-21 13:40:00+05:30 | Close=24552.75 | EMA8=24550.24 EMA30=24538.66 | ADX=21.4 Dir=BUY
+2026-04-21 13:45:19,530  ERROR     Candle fetch failed: HTTPSConnectionPool(host='api.kite.trade', port=443): Read timed out. (read timeout=7)
+2026-04-21 13:45:34,870  INFO      Candle 2026-04-21 13:45:00+05:30 | Close=24530.50 | EMA8=24542.53 EMA30=24536.98 | ADX=19.5 Dir=BUY
+2026-04-21 13:50:12,557  INFO      Candle 2026-04-21 13:50:00+05:30 | Close=24539.35 | EMA8=24543.23 EMA30=24537.62 | ADX=18.7 Dir=BUY
+2026-04-21 13:50:58,881  ERROR     Candle fetch failed: HTTPSConnectionPool(host='api.kite.trade', port=443): Read timed out. (read timeout=7)
+2026-04-21 13:53:49,856  ERROR     Candle fetch failed: HTTPSConnectionPool(host='api.kite.trade', port=443): Read timed out. (read timeout=7)
+2026-04-21 13:54:35,039  INFO      OI refreshed | None
+2026-04-21 13:55:15,556  INFO      Candle 2026-04-21 13:55:00+05:30 | Close=24550.75 | EMA8=24546.48 EMA30=24539.02 | ADX=16.8 Dir=BUY
+2026-04-21 14:00:13,471  INFO      Candle 2026-04-21 14:00:00+05:30 | Close=24552.80 | EMA8=24548.55 EMA30=24540.14 | ADX=19.5 Dir=BUY
+2026-04-21 14:05:02,288  INFO      Candle 2026-04-21 14:05:00+05:30 | Close=24541.30 | EMA8=24545.00 EMA30=24539.54 | ADX=14.5 Dir=BUY
+2026-04-21 14:10:11,472  INFO      Candle 2026-04-21 14:10:00+05:30 | Close=24533.00 | EMA8=24540.77 EMA30=24538.57 | ADX=14.5 Dir=BUY
+2026-04-21 14:15:09,329  INFO      Candle 2026-04-21 14:15:00+05:30 | Close=24538.10 | EMA8=24540.90 EMA30=24538.79 | ADX=16.3 Dir=BUY
+2026-04-21 14:20:07,367  INFO      Candle 2026-04-21 14:20:00+05:30 | Close=24556.50 | EMA8=24547.07 EMA30=24540.88 | ADX=17.3 Dir=BUY
+2026-04-21 14:25:15,219  INFO      Candle 2026-04-21 14:25:00+05:30 | Close=24572.05 | EMA8=24556.07 EMA30=24544.09 | ADX=21.2 Dir=BUY
+2026-04-21 14:30:13,560  INFO      Candle 2026-04-21 14:30:00+05:30 | Close=24572.90 | EMA8=24559.91 EMA30=24545.99 | ADX=23.0 Dir=BUY
+2026-04-21 14:35:11,585  INFO      Candle 2026-04-21 14:35:00+05:30 | Close=24556.30 | EMA8=24557.03 EMA30=24545.93 | ADX=23.5 Dir=BUY
+2026-04-21 14:40:09,435  INFO      Candle 2026-04-21 14:40:00+05:30 | Close=24550.45 | EMA8=24554.58 EMA30=24545.87 | ADX=20.9 Dir=BUY
+2026-04-21 14:45:07,193  INFO      Candle 2026-04-21 14:45:00+05:30 | Close=24537.95 | EMA8=24548.29 EMA30=24544.46 | ADX=21.0 Dir=BUY
+2026-04-21 14:50:14,995  INFO      Candle 2026-04-21 14:50:00+05:30 | Close=24551.20 | EMA8=24550.94 EMA30=24545.59 | ADX=20.7 Dir=BUY
+2026-04-21 14:54:41,488  INFO      OI refreshed | None
+2026-04-21 14:55:11,854  INFO      Candle 2026-04-21 14:55:00+05:30 | Close=24560.25 | EMA8=24554.69 EMA30=24547.12 | ADX=16.0 Dir=BUY
+2026-04-21 15:00:09,819  INFO      Candle 2026-04-21 15:00:00+05:30 | Close=24571.10 | EMA8=24559.71 EMA30=24549.15 | ADX=16.9 Dir=BUY
+2026-04-21 15:05:07,825  INFO      Candle 2026-04-21 15:05:00+05:30 | Close=24557.60 | EMA8=24557.07 EMA30=24548.94 | ADX=19.4 Dir=BUY
+2026-04-21 15:10:15,592  INFO      Candle 2026-04-21 15:10:00+05:30 | Close=24568.45 | EMA8=24562.33 EMA30=24551.15 | ADX=20.1 Dir=BUY
+2026-04-21 15:15:13,335  INFO      Candle 2026-04-21 15:15:00+05:30 | Close=24568.95 | EMA8=24564.74 EMA30=24552.63 | ADX=20.7 Dir=BUY
+2026-04-21 15:20:00,958  INFO      Market closed — closing open trades
+2026-04-21 15:20:01,095  INFO      ==================================================   PAPER TRADING REPORT — 21 Apr 2026 ==================================================   Instrument  : NIFTY   Capital     : Rs.150,000   Total Trades: 1   Wins        : 0   Losses      : 0   Win Rate    : 0.0%   Daily PnL   : +Rs.1,963.00   Equity Now  : Rs.151,963.00 ==================================================   Daily log   : logs/algo_2026-04-21.log   Trades CSV  : logs/daily_report.csv   Summary JSON: logs/summary_2026-04-21.json ==================================================
+2026-04-21 15:20:01,098  INFO      Daily summary saved: logs/summary_2026-04-21.json
+2026-04-21 15:20:01,098  INFO      Algo stopped. See you tomorrow!

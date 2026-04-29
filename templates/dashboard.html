@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>8-30 EMA Algo Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 { font-size: 18px; font-weight: 600; color: #58a6ff; }
+    header h1 span { color: #3fb950; }
+
+    #status-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #21262d;
+      border: 1px solid #30363d;
+    }
+    #status-badge.running  { background: #0d4429; border-color: #3fb950; color: #3fb950; }
+    #status-badge.stopped  { background: #2d1b1b; border-color: #f85149; color: #f85149; }
+
+    #last-updated {
+      font-size: 11px;
+      color: #8b949e;
+    }
+
+    /* ── Layout ── */
+    .container { padding: 20px 24px; max-width: 1400px; margin: 0 auto; }
+
+    /* ── Stat Cards ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .card-label {
+      font-size: 11px;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .card-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #e6edf3;
+    }
+
+    .card-value.green  { color: #3fb950; }
+    .card-value.red    { color: #f85149; }
+    .card-value.blue   { color: #58a6ff; }
+    .card-value.yellow { color: #d29922; }
+
+    .card-sub {
+      font-size: 11px;
+      color: #8b949e;
+      margin-top: 4px;
+    }
+
+    /* ── Charts Row ── */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .chart-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .chart-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .chart-container { position: relative; height: 220px; }
+    .candle-container { position: relative; height: 340px; width: 100%; }
+    #candleChart { display: block; width: 100% !important; height: 340px !important; }
+
+    /* ── OI + VIX Row ── */
+    .info-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .info-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .info-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .level-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #21262d;
+      font-size: 13px;
+    }
+
+    .level-row:last-child { border-bottom: none; }
+    .level-label { color: #8b949e; }
+    .level-value { font-weight: 600; }
+
+    .vix-meter {
+      margin-top: 8px;
+      height: 8px;
+      background: #21262d;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .vix-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s;
+    }
+
+    /* ── Trades Table ── */
+    .table-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .table-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-tabs { display: flex; gap: 8px; }
+    .tab {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      background: #21262d;
+      border: 1px solid #30363d;
+      color: #8b949e;
+    }
+    .tab.active { background: #1f6feb; border-color: #388bfd; color: #fff; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: left;
+      padding: 8px 10px;
+      color: #8b949e;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #30363d;
+    }
+    td { padding: 10px 10px; border-bottom: 1px solid #21262d; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #1c2128; }
+
+    .badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-buy    { background: #0d4429; color: #3fb950; }
+    .badge-sell   { background: #2d1b1b; color: #f85149; }
+    .badge-win    { background: #0d4429; color: #3fb950; }
+    .badge-loss   { background: #2d1b1b; color: #f85149; }
+    .badge-open   { background: #1c3053; color: #58a6ff; }
+    .badge-eod    { background: #2d2a1b; color: #d29922; }
+
+    .pnl-pos { color: #3fb950; font-weight: 600; }
+    .pnl-neg { color: #f85149; font-weight: 600; }
+
+    /* ── Refresh button ── */
+    .refresh-btn {
+      background: #1f6feb;
+      border: none;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .refresh-btn:hover { background: #388bfd; }
+
+    /* ── No data ── */
+    .no-data {
+      text-align: center;
+      color: #8b949e;
+      padding: 30px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+      .charts-row { grid-template-columns: 1fr; }
+      .info-row   { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>8-30 EMA <span>Algo</span> Dashboard</h1>
+    <div id="last-updated">Loading...</div>
+  </div>
+  <div style="display:flex; gap:12px; align-items:center;">
+    <span id="status-badge">● Checking...</span>
+    <button class="refresh-btn" onclick="loadAll()">Refresh</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ── Today Stats ── -->
+  <div style="font-size:11px; color:#8b949e; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Today</div>
+  <div class="stats-grid" id="today-stats">
+    <div class="card"><div class="card-label">Daily PnL</div><div class="card-value" id="today-pnl">—</div></div>
+    <div class="card"><div class="card-label">Trades</div><div class="card-value blue" id="today-trades">—</div></div>
+    <div class="card"><div class="card-label">Wins</div><div class="card-value green" id="today-wins">—</div></div>
+    <div class="card"><div class="card-label">Losses</div><div class="card-value red" id="today-losses">—</div></div>
+    <div class="card"><div class="card-label">Win Rate</div><div class="card-value yellow" id="today-winrate">—</div></div>
+    <div class="card"><div class="card-label">Open Trades</div><div class="card-value blue" id="today-open">—</div></div>
+  </div>
+
+  <!-- ── All Time Stats ── -->
+  <div style="font-size:11px; color:#8b949e; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">All Time</div>
+  <div class="stats-grid">
+    <div class="card"><div class="card-label">Capital</div><div class="card-value blue" id="all-capital">—</div></div>
+    <div class="card"><div class="card-label">Total PnL</div><div class="card-value" id="all-pnl">—</div></div>
+    <div class="card"><div class="card-label">Total Trades</div><div class="card-value blue" id="all-trades">—</div></div>
+    <div class="card"><div class="card-label">Win Rate</div><div class="card-value yellow" id="all-winrate">—</div></div>
+    <div class="card"><div class="card-label">Total Wins</div><div class="card-value green" id="all-wins">—</div></div>
+    <div class="card"><div class="card-label">Total Losses</div><div class="card-value red" id="all-losses">—</div></div>
+  </div>
+
+  <!-- ── Charts ── -->
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Equity Curve (All Time)</div>
+      <div class="chart-container">
+        <canvas id="equityChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Today's Performance</div>
+      <div class="chart-container">
+        <canvas id="todayChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Live Candlestick Chart ── -->
+  <div class="chart-card" style="margin-bottom:20px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <div class="chart-title">{{ instrument }} Live — 5 Min Candles (EMA 8 &amp; EMA 30)</div>
+      <div style="display:flex; gap:16px; font-size:11px; color:#8b949e;">
+        <span style="color:#f0883e;">▬ EMA 8</span>
+        <span style="color:#58a6ff;">▬ EMA 30</span>
+        <span style="color:#3fb950;">▮ Bullish</span>
+        <span style="color:#f85149;">▮ Bearish</span>
+      </div>
+    </div>
+    <div class="candle-container">
+      <canvas id="candleChart"></canvas>
+    </div>
+    <div style="font-size:11px; color:#8b949e; margin-top:8px; text-align:right;" id="candle-last-price"></div>
+  </div>
+
+  <!-- ── OI + VIX + Market Info ── -->
+  <div class="info-row">
+
+    <div class="info-card">
+      <div class="info-title">OI Levels ({{ instrument }})</div>
+      <div id="oi-content">
+        <div class="level-row"><span class="level-label">Support</span><span class="level-value green" id="oi-support">—</span></div>
+        <div class="level-row"><span class="level-label">Resistance</span><span class="level-value red" id="oi-resistance">—</span></div>
+        <div class="level-row"><span class="level-label">Max Pain</span><span class="level-value yellow" id="oi-maxpain">—</span></div>
+        <div class="level-row"><span class="level-label">PCR</span><span class="level-value" id="oi-pcr">—</span></div>
+        <div class="level-row"><span class="level-label">Bias</span><span class="level-value" id="oi-bias">—</span></div>
+        <div class="level-row"><span class="level-label">Expiry</span><span class="level-value" id="oi-expiry">—</span></div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-title">India VIX</div>
+      <div style="text-align:center; padding: 10px 0;">
+        <div style="font-size:42px; font-weight:700;" id="vix-value">—</div>
+        <div style="font-size:13px; margin-top:4px;" id="vix-status">Loading...</div>
+        <div class="vix-meter" style="margin-top:16px;">
+          <div class="vix-fill" id="vix-fill" style="width:0%;"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:#8b949e; margin-top:4px;">
+          <span>0</span><span>Safe &lt;15</span><span>High &gt;25</span><span>40</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-title">Strategy Config</div>
+      <div class="level-row"><span class="level-label">Instrument</span><span class="level-value blue" id="cfg-instrument">—</span></div>
+      <div class="level-row"><span class="level-label">Capital</span><span class="level-value" id="cfg-capital">—</span></div>
+      <div class="level-row"><span class="level-label">Risk/Trade</span><span class="level-value yellow" id="cfg-risk">—</span></div>
+      <div class="level-row"><span class="level-label">Max Trades/Day</span><span class="level-value" id="cfg-maxtrades">—</span></div>
+      <div class="level-row"><span class="level-label">Daily Loss Limit</span><span class="level-value red" id="cfg-losslimit">—</span></div>
+      <div class="level-row"><span class="level-label">Timeframe</span><span class="level-value" id="cfg-timeframe">—</span></div>
+    </div>
+
+  </div>
+
+  <!-- ── Trades Table ── -->
+  <div class="table-card">
+    <div class="table-header">
+      <div class="table-title">Trade History</div>
+      <div class="filter-tabs">
+        <div class="tab active" onclick="filterTrades('all', this)">All</div>
+        <div class="tab" onclick="filterTrades('today', this)">Today</div>
+        <div class="tab" onclick="filterTrades('wins', this)">Wins</div>
+        <div class="tab" onclick="filterTrades('losses', this)">Losses</div>
+      </div>
+    </div>
+    <div id="trades-table-wrap">
+      <div class="no-data">Loading trades...</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let allTrades   = [];
+  let equityChart = null;
+  let todayChart  = null;
+
+  // ── Fetch & render all data ──────────────────────────────────────────────
+
+  async function loadAll() {
+    await Promise.all([
+      loadSummary(),
+      loadEquity(),
+      loadTodayEquity(),
+      loadVix(),
+      loadOI(),
+      loadTrades(),
+      loadStatus(),
+      loadConfig(),
+      loadCandles(),
+    ]);
+    document.getElementById("last-updated").textContent =
+      "Last updated: " + new Date().toLocaleTimeString("en-IN");
+  }
+
+  async function loadSummary() {
+    const r = await fetch("/api/summary");
+    const d = await r.json();
+
+    const tp = d.today.total_pnl;
+    document.getElementById("today-pnl").textContent     = fmt_pnl(tp);
+    document.getElementById("today-pnl").className       = "card-value " + (tp >= 0 ? "green" : "red");
+    document.getElementById("today-trades").textContent  = d.today.total_trades;
+    document.getElementById("today-wins").textContent    = d.today.wins;
+    document.getElementById("today-losses").textContent  = d.today.losses;
+    document.getElementById("today-winrate").textContent = d.today.win_rate + "%";
+    document.getElementById("today-open").textContent    = d.today.open_trades;
+
+    const ap = d.all.total_pnl;
+    document.getElementById("all-capital").textContent   = fmt_inr(d.all.capital);
+    document.getElementById("all-pnl").textContent       = fmt_pnl(ap);
+    document.getElementById("all-pnl").className         = "card-value " + (ap >= 0 ? "green" : "red");
+    document.getElementById("all-trades").textContent    = d.all.total_trades;
+    document.getElementById("all-winrate").textContent   = d.all.win_rate + "%";
+    document.getElementById("all-wins").textContent      = d.all.wins;
+    document.getElementById("all-losses").textContent    = d.all.losses;
+  }
+
+  async function loadEquity() {
+    const r    = await fetch("/api/equity");
+    const data = await r.json();
+    const labels = data.map(p => p.x);
+    const values = data.map(p => p.y);
+    const color  = values[values.length-1] >= values[0] ? "#3fb950" : "#f85149";
+
+    if (equityChart) equityChart.destroy();
+    equityChart = new Chart(document.getElementById("equityChart"), {
+      type: "line",
+      data: {
+        labels,
+        datasets: [{
+          label: "Equity",
+          data: values,
+          borderColor: color,
+          backgroundColor: color + "22",
+          borderWidth: 2,
+          pointRadius: 3,
+          fill: true,
+          tension: 0.3,
+        }]
+      },
+      options: chart_opts("₹"),
+    });
+  }
+
+  async function loadTodayEquity() {
+    const r    = await fetch("/api/todays_equity");
+    const data = await r.json();
+    const labels = data.map(p => p.x);
+    const values = data.map(p => p.y);
+    const color  = values.length < 2 ? "#58a6ff" :
+                   (values[values.length-1] >= values[0] ? "#3fb950" : "#f85149");
+
+    if (todayChart) todayChart.destroy();
+    todayChart = new Chart(document.getElementById("todayChart"), {
+      type: "line",
+      data: {
+        labels,
+        datasets: [{
+          label: "Today Equity",
+          data: values,
+          borderColor: color,
+          backgroundColor: color + "22",
+          borderWidth: 2,
+          pointRadius: 4,
+          fill: true,
+          tension: 0.3,
+        }]
+      },
+      options: chart_opts("₹"),
+    });
+  }
+
+  async function loadVix() {
+    const r = await fetch("/api/vix");
+    const d = await r.json();
+    const vix = d.vix || 0;
+    const colors = {
+      SAFE     : "#3fb950",
+      ELEVATED : "#d29922",
+      HIGH     : "#f0883e",
+      DANGEROUS: "#f85149",
+      UNKNOWN  : "#8b949e",
+    };
+    const color = colors[d.status] || "#8b949e";
+    document.getElementById("vix-value").textContent     = vix ? vix.toFixed(2) : "—";
+    document.getElementById("vix-value").style.color     = color;
+    document.getElementById("vix-status").textContent    = d.status;
+    document.getElementById("vix-status").style.color    = color;
+    const pct = Math.min((vix / 40) * 100, 100);
+    document.getElementById("vix-fill").style.width      = pct + "%";
+    document.getElementById("vix-fill").style.background = color;
+  }
+
+  async function loadOI() {
+    const r = await fetch("/api/oi");
+    const d = await r.json();
+    document.getElementById("oi-support").textContent    = d.support    || "—";
+    document.getElementById("oi-resistance").textContent = d.resistance || "—";
+    document.getElementById("oi-maxpain").textContent    = d.max_pain   || "—";
+    document.getElementById("oi-pcr").textContent        = d.pcr        || "—";
+    document.getElementById("oi-expiry").textContent     = d.expiry     || "—";
+    const bias = d.bias || "—";
+    const biasEl = document.getElementById("oi-bias");
+    biasEl.textContent  = bias + " (PCR)";
+    biasEl.title        = "PCR based — Call OI vs Put OI ratio. Not intraday direction.";
+    biasEl.style.color  = bias === "BULLISH" ? "#3fb950" : bias === "BEARISH" ? "#f85149" : "#8b949e";
+  }
+
+  async function loadTrades() {
+    const r = await fetch("/api/trades");
+    allTrades = await r.json();
+    renderTable(allTrades);
+  }
+
+  async function loadStatus() {
+    const r = await fetch("/api/status");
+    const d = await r.json();
+    const badge = document.getElementById("status-badge");
+    if (d.running) {
+      badge.textContent = "● Algo Running";
+      badge.className   = "status-badge running";
+    } else {
+      badge.textContent = "● Algo Stopped";
+      badge.className   = "status-badge stopped";
+    }
+  }
+
+  async function loadConfig() {
+    // Config values baked in from Flask (or just use hardcoded from page)
+    const r = await fetch("/api/summary");
+    const d = await r.json();
+    document.getElementById("cfg-capital").textContent   = fmt_inr({{ capital }});
+    document.getElementById("cfg-risk").textContent      = ({{ risk_pct }} * 100) + "%  = " + fmt_inr({{ capital }} * {{ risk_pct }});
+    document.getElementById("cfg-maxtrades").textContent = "{{ max_trades }}";
+    document.getElementById("cfg-losslimit").textContent = fmt_inr({{ loss_limit }});
+    document.getElementById("cfg-timeframe").textContent = "{{ timeframe }} min";
+    document.getElementById("cfg-instrument").textContent= "{{ instrument }}";
+  }
+
+  // ── Table rendering ────────────────────────────────────────────────────────
+
+  function filterTrades(type, el) {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    el.classList.add("active");
+    const today = new Date().toISOString().split("T")[0];
+    let filtered = allTrades;
+    if (type === "today")  filtered = allTrades.filter(t => (t.Date||t.date||"").includes(today));
+    if (type === "wins")   filtered = allTrades.filter(t => (t.Result||t.result||"") === "TARGET_HIT");
+    if (type === "losses") filtered = allTrades.filter(t => (t.Result||t.result||"") === "SL_HIT");
+    renderTable(filtered);
+  }
+
+  function renderTable(trades) {
+    const wrap = document.getElementById("trades-table-wrap");
+    if (!trades.length) {
+      wrap.innerHTML = '<div class="no-data">No trades yet. Algo will start trading on the next market day.</div>';
+      return;
+    }
+    let rows = trades.map((t, i) => {
+      const dir     = t.direction || "";
+      const result  = t.result    || "OPEN";
+      const pnl     = parseFloat(t.pnl    || 0);
+      const entry   = parseFloat(t.entry  || 0);
+      const sl      = parseFloat(t.sl     || 0);
+      const target  = parseFloat(t.target || 0);
+      const rr      = t.rr || "";
+      const type    = t.entry_type || "";
+      const sym     = t.symbol || "";
+      const lots    = t.lots   || "";
+      const qty     = t.qty    || "";
+      const etime   = t.entry_time || "";
+      const xtime   = t.exit_time  || "—";
+      const xprice  = t.exit_price || "—";
+      const cost    = parseFloat(t.total_cost  || 0);
+      const exitval = parseFloat(t.exit_value  || 0);
+      const date    = (t.date || "").substring(0, 16);
+
+      // Option detail fields
+      const opt_type   = t.opt_type        || (dir === "BUY" ? "CE" : "PE");
+      const ltp        = parseFloat(t.ltp_at_entry    || 0);
+      const bid        = parseFloat(t.bid_at_entry    || 0);
+      const ask        = parseFloat(t.ask_at_entry    || 0);
+      const oi         = parseInt(t.oi_at_entry       || 0);
+      const vol        = parseInt(t.volume_at_entry   || 0);
+      const spot_e     = parseFloat(t.spot_entry      || 0);
+      const spot_sl    = parseFloat(t.spot_sl         || 0);
+      const spot_tgt   = parseFloat(t.spot_target     || 0);
+
+      // e.g. "CALL BUY" or "PUT BUY"
+      const action_label = (opt_type === "CE" ? "CALL" : "PUT") + " " + dir;
+      const action_badge = `<span class="badge ${dir==='BUY'?'badge-buy':'badge-sell'}" style="font-size:11px;letter-spacing:0.3px;">${action_label}</span>`;
+      const opt_badge    = opt_type === "CE"
+        ? `<span class="badge badge-buy">CE</span>`
+        : `<span class="badge badge-sell">PE</span>`;
+
+      const dir_badge    = action_badge;
+      const result_badge = result === "TARGET_HIT" ? `<span class="badge badge-win">WIN</span>` :
+                           result === "SL_HIT"     ? `<span class="badge badge-loss">LOSS</span>` :
+                           result === "CLOSED_EOD" ? `<span class="badge badge-eod">EOD</span>` :
+                                                     `<span class="badge badge-open">OPEN</span>`;
+      const pnl_str = pnl === 0 ? "—" :
+                      pnl > 0   ? `<span class="pnl-pos">+₹${pnl.toLocaleString("en-IN")}</span>` :
+                                  `<span class="pnl-neg">-₹${Math.abs(pnl).toLocaleString("en-IN")}</span>`;
+
+      const cost_str    = cost    > 0 ? `₹${cost.toLocaleString("en-IN",{maximumFractionDigits:0})}` : "—";
+      const exitval_str = exitval > 0 ? `₹${exitval.toLocaleString("en-IN",{maximumFractionDigits:0})}` : "—";
+      const rid = `opt-row-${i}`;
+
+      // Expandable option detail row
+      const detail_row = `<tr id="${rid}" style="display:none; background:#1c2128;">
+        <td colspan="14" style="padding:10px 14px;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;font-size:12px;">
+            <div><span style="color:#8b949e;">Symbol</span><br><b style="color:#e6edf3;">${sym}</b></div>
+            <div><span style="color:#8b949e;">Option Type</span><br><b>${opt_badge}</b></div>
+            <div><span style="color:#8b949e;">Lots × Qty</span><br><b style="color:#e6edf3;">${lots} lots × ${qty} units</b></div>
+            <div><span style="color:#8b949e;">LTP at Entry</span><br><b style="color:#d29922;">₹${ltp || "—"}</b></div>
+            <div><span style="color:#8b949e;">Bid / Ask</span><br><b style="color:#e6edf3;">₹${bid} / ₹${ask}</b></div>
+            <div><span style="color:#8b949e;">OI at Entry</span><br><b style="color:#58a6ff;">${oi ? oi.toLocaleString("en-IN") : "—"}</b></div>
+            <div><span style="color:#8b949e;">Volume</span><br><b style="color:#58a6ff;">${vol ? vol.toLocaleString("en-IN") : "—"}</b></div>
+            <div><span style="color:#8b949e;">Spot Entry</span><br><b style="color:#e6edf3;">${spot_e ? "₹"+spot_e.toLocaleString("en-IN") : "—"}</b></div>
+            <div><span style="color:#8b949e;">Spot SL</span><br><b style="color:#f85149;">${spot_sl ? "₹"+spot_sl.toLocaleString("en-IN") : "—"}</b></div>
+            <div><span style="color:#8b949e;">Spot Target</span><br><b style="color:#3fb950;">${spot_tgt ? "₹"+spot_tgt.toLocaleString("en-IN") : "—"}</b></div>
+            <div><span style="color:#8b949e;">Entry Time</span><br><b style="color:#e6edf3;">${etime}</b></div>
+            <div><span style="color:#8b949e;">Exit Time</span><br><b style="color:#e6edf3;">${xtime}</b></div>
+          </div>
+        </td>
+      </tr>`;
+
+      const main_row = `<tr style="cursor:pointer;" onclick="document.getElementById('${rid}').style.display = document.getElementById('${rid}').style.display==='none'?'table-row':'none'">
+        <td>${date}</td>
+        <td>${dir_badge}</td>
+        <td style="color:#8b949e;font-size:11px;">${type}</td>
+        <td>₹${entry.toLocaleString("en-IN")}</td>
+        <td style="color:#f85149;">₹${sl.toLocaleString("en-IN")}</td>
+        <td style="color:#3fb950;">₹${target.toLocaleString("en-IN")}</td>
+        <td style="color:#8b949e;">1:${rr}</td>
+        <td style="color:#d29922;">${cost_str}</td>
+        <td>${xprice !== "—" ? "₹"+parseFloat(xprice).toLocaleString("en-IN") : "—"}</td>
+        <td style="color:#58a6ff;">${exitval_str}</td>
+        <td>${pnl_str}</td>
+        <td>${result_badge}</td>
+        <td style="color:#8b949e;font-size:11px;">${etime} → ${xtime}</td>
+        <td style="color:#8b949e;font-size:11px;">▼</td>
+      </tr>${detail_row}`;
+
+      return main_row;
+    }).join("");
+
+    wrap.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th><th>Dir</th><th>Type</th>
+            <th>Entry</th><th>Stop Loss</th><th>Target</th><th>RR</th>
+            <th>Total Cost</th><th>Exit Price</th><th>Exit Value</th><th>PnL</th><th>Result</th><th>Time</th><th></th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div style="font-size:11px;color:#8b949e;margin-top:8px;text-align:right;">▼ Click any row to see option details (LTP, OI, Bid/Ask, Spot levels)</div>`;
+  }
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+
+  function fmt_inr(n) {
+    return "₹" + parseFloat(n).toLocaleString("en-IN", {maximumFractionDigits: 0});
+  }
+
+  function fmt_pnl(n) {
+    const abs = Math.abs(n).toLocaleString("en-IN", {maximumFractionDigits: 2});
+    return (n >= 0 ? "+" : "-") + "₹" + abs;
+  }
+
+  function chart_opts(prefix) {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => prefix + ctx.parsed.y.toLocaleString("en-IN")
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#8b949e", font: { size: 10 }, maxTicksLimit: 8 },
+          grid:  { color: "#21262d" },
+        },
+        y: {
+          ticks: { color: "#8b949e", font: { size: 10 },
+                   callback: v => "₹" + v.toLocaleString("en-IN") },
+          grid:  { color: "#21262d" },
+        }
+      }
+    };
+  }
+
+  // ── Candlestick Chart — pure canvas, no extra libs ───────────────────────
+
+  async function loadCandles() {
+    try {
+      const r    = await fetch("/api/candles");
+      const data = await r.json();
+      if (!data.length) return;
+
+      const last = data[data.length - 1];
+      document.getElementById("candle-last-price").innerHTML =
+        `Last: <b style="color:#e6edf3;">${last.t}</b> &nbsp;|&nbsp; ` +
+        `O:<b>${last.o}</b> H:<b style="color:#3fb950">${last.h}</b> ` +
+        `L:<b style="color:#f85149">${last.l}</b> C:<b style="color:#58a6ff">${last.c}</b> &nbsp;|&nbsp; ` +
+        `EMA8:<b style="color:#f0883e">${last.ema8}</b> &nbsp; EMA30:<b style="color:#58a6ff">${last.ema30}</b>`;
+
+      drawCandles(data);
+    } catch(e) {
+      console.warn("Candle chart failed:", e);
+    }
+  }
+
+  function drawCandles(data) {
+    requestAnimationFrame(() => _drawCandles(data));
+  }
+
+  function _drawCandles(data) {
+    const canvas = document.getElementById("candleChart");
+    const dpr    = window.devicePixelRatio || 1;
+    const W      = canvas.offsetWidth  || canvas.parentElement.offsetWidth  || 900;
+    const H      = canvas.offsetHeight || 340;
+
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width  = W + "px";
+    canvas.style.height = H + "px";
+
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, W, H);
+
+    // Margins
+    const ML = 72, MR = 16, MT = 16, MB = 28;
+    const CW = W - ML - MR;
+    const CH = H - MT - MB;
+
+    // Price range
+    const allH = data.map(d => d.h);
+    const allL = data.map(d => d.l);
+    const allE = data.map(d => d.ema8).concat(data.map(d => d.ema30));
+    const minP = Math.min(...allL, ...allE) - 15;
+    const maxP = Math.max(...allH, ...allE) + 15;
+    const priceH = maxP - minP;
+
+    function px(price) { return MT + CH * (1 - (price - minP) / priceH); }
+    function cx(i)     { return ML + (i + 0.5) * (CW / data.length); }
+
+    // Grid lines + Y labels
+    ctx.strokeStyle = "#21262d";
+    ctx.lineWidth   = 1;
+    const steps = 6;
+    for (let i = 0; i <= steps; i++) {
+      const price = minP + (priceH / steps) * i;
+      const y     = px(price);
+      ctx.beginPath(); ctx.moveTo(ML, y); ctx.lineTo(ML + CW, y); ctx.stroke();
+      ctx.fillStyle  = "#8b949e";
+      ctx.font       = "10px sans-serif";
+      ctx.textAlign  = "right";
+      ctx.fillText("₹" + Math.round(price).toLocaleString("en-IN"), ML - 4, y + 3);
+    }
+
+    // X labels — show every Nth candle
+    const everyN = Math.ceil(data.length / 10);
+    ctx.fillStyle = "#8b949e";
+    ctx.font      = "10px sans-serif";
+    ctx.textAlign = "center";
+    data.forEach((d, i) => {
+      if (i % everyN === 0 || i === data.length - 1) {
+        ctx.fillText(d.t, cx(i), H - MB + 14);
+        ctx.beginPath();
+        ctx.strokeStyle = "#30363d";
+        ctx.lineWidth   = 0.5;
+        ctx.moveTo(cx(i), MT);
+        ctx.lineTo(cx(i), MT + CH);
+        ctx.stroke();
+      }
+    });
+
+    // Candle width
+    const barW = Math.max(Math.floor(CW / data.length * 0.6), 2);
+
+    // Draw candles
+    data.forEach((d, i) => {
+      const x      = cx(i);
+      const bull   = d.c >= d.o;
+      const color  = bull ? "#3fb950" : "#f85149";
+      const yHigh  = px(d.h);
+      const yLow   = px(d.l);
+      const yOpen  = px(d.o);
+      const yClose = px(d.c);
+
+      // Wick
+      ctx.strokeStyle = color;
+      ctx.lineWidth   = 1;
+      ctx.beginPath();
+      ctx.moveTo(x, yHigh);
+      ctx.lineTo(x, yLow);
+      ctx.stroke();
+
+      // Body
+      const bodyTop = Math.min(yOpen, yClose);
+      const bodyH   = Math.max(Math.abs(yClose - yOpen), 1.5);
+      ctx.fillStyle = color;
+      ctx.fillRect(x - barW / 2, bodyTop, barW, bodyH);
+    });
+
+    // EMA 8 line
+    ctx.beginPath();
+    ctx.strokeStyle = "#f0883e";
+    ctx.lineWidth   = 1.5;
+    data.forEach((d, i) => {
+      i === 0 ? ctx.moveTo(cx(i), px(d.ema8)) : ctx.lineTo(cx(i), px(d.ema8));
+    });
+    ctx.stroke();
+
+    // EMA 30 line
+    ctx.beginPath();
+    ctx.strokeStyle = "#58a6ff";
+    ctx.lineWidth   = 1.5;
+    data.forEach((d, i) => {
+      i === 0 ? ctx.moveTo(cx(i), px(d.ema30)) : ctx.lineTo(cx(i), px(d.ema30));
+    });
+    ctx.stroke();
+
+    // Legend
+    const lx = ML + CW - 10;
+    [["EMA 8","#f0883e"], ["EMA 30","#58a6ff"]].forEach(([label, color], i) => {
+      const ly = MT + 12 + i * 18;
+      ctx.strokeStyle = color; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(lx - 80, ly); ctx.lineTo(lx - 56, ly); ctx.stroke();
+      ctx.fillStyle = "#8b949e"; ctx.font = "10px sans-serif"; ctx.textAlign = "left";
+      ctx.fillText(label, lx - 52, ly + 3);
+    });
+  }
+
+  // ── Auto refresh every 30 seconds ─────────────────────────────────────────
+  loadAll();
+  setInterval(loadAll, 30000);
+</script>
+</body>
+</html>
