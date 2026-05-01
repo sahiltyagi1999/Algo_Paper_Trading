@@ -2,21 +2,28 @@
 __pycache__/
 *.py[cod]
 *.pyo
-*.pyd
 
-# Virtual environment
+# Virtual environments
 venv/
 env/
+.venv/
+
+# Secrets — never commit
 .env
-
-# Secrets & tokens
+backend/.env
 logs/access_token.txt
-*.token
-*.key
-*.secret
 
-# IDE & system
+# IDE & OS
 .claude/
 .DS_Store
+.vscode/
 *.png
 
+# Logs (large / sensitive)
+logs/*.log
+logs/*.csv
+logs/*.json
+
+# Dist / build artefacts
+dist/
+*.egg-info/

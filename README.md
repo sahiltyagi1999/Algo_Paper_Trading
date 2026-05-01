@@ -1,159 +1,102 @@
-# 8-30 EMA Algo Trader (Zerodha / Kite)
+# 8-30 EMA Algo Trader
 
-Options algo for NIFTY / BANKNIFTY built on the 8 & 30 EMA crossover strategy with OI, VIX, and news filters.
+Automated options trading on Nifty using the 8 EMA / 30 EMA crossover strategy with Zerodha Kite Connect.
 
-> **Strategy Guide:** Full strategy explanation, entry rules, filters, and backtesting notes are in [`Algo_Trading_Guide.pdf`](Algo_Trading_Guide.pdf)
-
----
-
-## Requirements
-
-- Python 3.10+
-- Zerodha account with **Kite Connect API** access
-- API Key & Secret from [kite.trade/apps](https://kite.trade/apps)
+```
+/
+├── backend/        Flask API (deploy to Railway)
+└── frontend/       Static dashboard (deploy to Netlify)
+```
 
 ---
 
-## Setup
+## Backend — Flask API
+
+### Structure
+
+```
+backend/
+├── app.py              Flask app factory + startup
+├── config.py           All settings (loaded from .env)
+├── Procfile            Railway / gunicorn entry-point
+├── requirements.txt
+├── .env.example        Copy → .env and fill in secrets
+├── core/
+│   └── database.py     MongoDB singleton (trades, logs, creds, config)
+├── routes/
+│   ├── trades.py       /api/trades, /api/summary, /api/equity
+│   ├── kite.py         /api/kite/login-url, /api/kite/generate-token
+│   ├── market.py       /api/vix, /api/oi, /api/candles, /api/status, /api/logs
+│   └── settings.py     /api/settings, /api/mongo/connect
+└── services/
+    ├── kite_service.py
+    ├── trade_service.py
+    ├── market_service.py
+    └── settings_service.py
+```
+
+### Local setup
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
-
-# 2. Create and activate virtual environment
-python3 -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-
-# 3. Install dependencies
+cd backend
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env          # fill in MONGO_URL, KITE_API_KEY, KITE_API_SECRET
+python app.py                 # → http://localhost:4200
 ```
+
+### Deploy to Railway
+
+1. Connect this repo → set root directory to `backend/`
+2. Add environment variables from `.env.example`
+3. Railway uses `Procfile` automatically
 
 ---
 
-## Configuration
+## Frontend — Static Dashboard
 
-Open `config.py` and set your credentials and preferences:
-
-```python
-API_KEY    = "your_kite_api_key"
-API_SECRET = "your_kite_api_secret"
+```
+frontend/
+├── index.html      Single-page dashboard (all JS inline)
+└── js/
+    └── config.js   Set API_BASE to your Railway URL before deploying
 ```
 
-> **Tip:** Use environment variables to avoid hardcoding keys:
-> ```bash
-> export KITE_API_KEY=your_key
-> export KITE_API_SECRET=your_secret
-> ```
+### Deploy to Netlify
 
-Other settings to review in `config.py`:
+1. Drag-and-drop the `frontend/` folder to Netlify, **or**
+2. Connect repo → set **Publish directory** to `frontend/`
 
-| Setting | Default | Description |
-|---|---|---|
-| `PAPER_TRADING` | `True` | `True` = simulate trades, `False` = real orders |
-| `INSTRUMENT` | `"NIFTY"` | `"NIFTY"` or `"BANKNIFTY"` |
-| `CAPITAL` | `150000` | Starting capital in Rs. |
-| `RISK_PCT` | `0.01` | Risk per trade (1% of capital) |
-| `MAX_TRADES_DAY` | `3` | Max trades per day |
-| `DAILY_LOSS_LIMIT` | `4500` | Halt trading if loss exceeds this (Rs.) |
-| `TIMEFRAME` | `5` | Candle size in minutes |
+Before deploying, edit `frontend/js/config.js` and replace the placeholder Railway URL with your actual backend URL.
 
 ---
 
-## How to Start — Every Morning
+## API Reference
 
-> Do this **before market opens (before 9:15 AM)**
-
-### Step 1 — Zerodha Login
-
-```bash
-python3 zerodha_login.py
-```
-
-- A browser window will open — login with your Zerodha credentials
-- After login, copy the `request_token` from the URL:
-  ```
-  https://kite.trade/connect/login?request_token=XXXXXXXX&action=login
-  ```
-- Paste it in the terminal when prompted
-- Access token is saved to `logs/access_token.txt` (valid for the day)
-
-### Step 2 — Start the Algo
-
-```bash
-python3 algo_trader.py
-```
-
-The algo will:
-1. Run pre-market checks (VIX, news, OI)
-2. Wait until 9:15 AM if market isn't open yet
-3. Start scanning candles every 5 minutes
-4. Place trades automatically based on signals
-5. Print end-of-day report at 3:20 PM
-
-### Step 3 — Start the Dashboard (optional, separate terminal)
-
-```bash
-python3 dashboard_server.py
-```
-
-Open [http://localhost:4200](http://localhost:4200) to see live P&L, trades, and market data.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/trades` | All trades |
+| GET | `/api/summary` | Win/loss stats (all + today) |
+| GET | `/api/equity` | Equity curve data |
+| GET | `/api/todays_equity` | Today's equity curve |
+| GET | `/api/daily_history` | Daily summary history |
+| GET | `/api/vix` | India VIX + danger level |
+| GET | `/api/oi` | OI support / resistance levels |
+| GET | `/api/candles` | Today's 5-min candles with EMAs |
+| GET | `/api/status` | Algo running status + last log |
+| GET | `/api/logs?date=YYYY-MM-DD&limit=300` | Log lines |
+| GET | `/api/settings` | Current trading settings |
+| POST | `/api/settings` | Update settings |
+| GET | `/api/mongo/status` | MongoDB connection status |
+| POST | `/api/mongo/connect` | Connect MongoDB at runtime |
+| POST | `/api/kite/login-url` | Get Zerodha login URL |
+| POST | `/api/kite/generate-token` | Exchange request token for access token |
+| GET | `/api/kite/status` | Kite connection status |
 
 ---
 
-## Paper Trading vs Real Trading
+## Algo Runner (local only)
 
-### Switch to Paper Trading (safe, no real orders)
+The trading bot itself runs locally on your machine (not deployed). It reads `KITE_API_KEY`, `KITE_API_SECRET`, and the access token written by the dashboard, then logs every trade to MongoDB.
 
-In `config.py`:
-
-```python
-PAPER_TRADING = True
-```
-
-All signals and P&L are simulated. No orders are sent to Zerodha.
-
-### Switch to Real Trading (live orders on Zerodha)
-
-In `config.py`:
-
-```python
-PAPER_TRADING = False
-```
-
-> **Before going live, make sure:**
-> - You have tested the strategy in paper mode for at least a few weeks
-> - `CAPITAL`, `RISK_PCT`, and `DAILY_LOSS_LIMIT` are set correctly
-> - Your Kite API app has **Order** permissions enabled on [kite.trade/apps](https://kite.trade/apps)
-> - Sufficient margin is available in your Zerodha account
-
----
-
-## File Structure
-
-```
-├── algo_trader.py        # Main algo — entry point
-├── config.py             # All settings (edit this)
-├── zerodha_login.py      # Zerodha login helper
-├── dashboard_server.py   # Live web dashboard
-├── paper_trade.py        # Paper trade engine
-├── candle_patterns.py    # Candle pattern logic
-├── option_chain.py       # Option price fetching
-├── oi_data.py            # Open interest filters
-├── iv_filter.py          # VIX filter
-├── news_filter.py        # News/event filter
-├── report.py             # Trade reporting
-├── logs/                 # Trade logs and daily reports
-└── templates/            # Dashboard HTML
-```
-
----
-
-## Logs
-
-| File | Description |
-|---|---|
-| `logs/algo_trade.log` | Master log (all days) |
-| `logs/algo_YYYY-MM-DD.log` | Daily log |
-| `logs/daily_report.csv` | All trades in CSV |
-| `logs/summary_YYYY-MM-DD.json` | Daily summary JSON |
+See `Algo_Trading_Guide.pdf` for the full strategy and setup walkthrough.
