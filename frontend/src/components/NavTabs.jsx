@@ -2,6 +2,7 @@ const TABS = [
   { id: "dashboard", label: "📊 Dashboard" },
   { id: "kite",      label: "🔌 Kite Connect" },
   { id: "settings",  label: "⚙️ Settings" },
+  { id: "logs",      label: "🖥 Logs" },
   { id: "docs",      label: "📚 Documentation" },
   { id: "golive",    label: "🚀 Go Live" },
 ];

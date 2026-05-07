@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { api, setToken } from "../api/client";
 
-export default function AuthPage({ onAuth }) {
-  const [username, setUsername] = useState("");
+export default function AuthPage({ onAuth, sessionExpired }) {
+  const [username, setUsername] = useState(localStorage.getItem("username") || "");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ export default function AuthPage({ onAuth }) {
       const d = await api.post("/api/auth/login", { username, password });
       if (d.error) { setError(d.error); return; }
       setToken(d.token);
-      onAuth(d.username || username);
+      onAuth(d.username || username, password);
     } catch {
       setError("Connection failed — is the backend running?");
     } finally {
@@ -38,6 +38,16 @@ export default function AuthPage({ onAuth }) {
           </div>
           <div style={{ fontSize: 13, color: "#8b949e", marginTop: 6 }}>Dashboard</div>
         </div>
+
+        {sessionExpired && (
+          <div style={{
+            background: "#2d1b00", border: "1px solid #d29922", borderRadius: 6,
+            padding: "10px 12px", fontSize: 12, color: "#d29922", marginBottom: 16,
+            textAlign: "center",
+          }}>
+            ⚠ Session expired — please login again
+          </div>
+        )}
 
         <form onSubmit={submit}>
           <div className="form-group">

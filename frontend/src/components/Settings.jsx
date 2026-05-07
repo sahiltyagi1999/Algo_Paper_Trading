@@ -11,7 +11,7 @@ export default function Settings() {
     instrument: "NIFTY", paper_trading: "true", capital: 55000,
     profit_vault: 47000, daily_loss_limit: 2000, max_trades_day: 3,
     risk_pct: 0.015, ema_fast: 8, ema_slow: 30, adx_threshold: 20,
-    sl_buffer: 15, oi_buffer: 50,
+    sl_buffer: 15, oi_buffer: 50, square_off_time: "15:15",
   });
 
   async function load() {
@@ -30,6 +30,7 @@ export default function Settings() {
         adx_threshold:    d.adx_threshold   || 20,
         sl_buffer:        d.sl_buffer       || 15,
         oi_buffer:        d.oi_buffer       || 50,
+        square_off_time:  d.square_off_time || "15:15",
       });
       setMongoOk(m.connected);
       setMongoDb(m.db || "");
@@ -52,16 +53,16 @@ export default function Settings() {
     const data = {
       instrument:       form.instrument,
       paper_trading:    form.paper_trading === "true",
-      capital:          parseFloat(form.capital)          || 0,
-      profit_vault:     parseFloat(form.profit_vault)     || 0,
-      daily_loss_limit: parseFloat(form.daily_loss_limit) || 0,
-      max_trades_day:   parseInt(form.max_trades_day)     || 3,
-      risk_pct:         parseFloat(form.risk_pct)         || 0.015,
+      capital:          parseFloat(form.capital)      || 0,
+      profit_vault:     parseFloat(form.profit_vault) || 0,
+      max_trades_day:   parseInt(form.max_trades_day) || 3,
+      risk_pct:         parseFloat(form.risk_pct)     || 0.015,
       ema_fast:         parseInt(form.ema_fast)           || 8,
       ema_slow:         parseInt(form.ema_slow)           || 30,
       adx_threshold:    parseFloat(form.adx_threshold)    || 20,
       sl_buffer:        parseFloat(form.sl_buffer)        || 15,
       oi_buffer:        parseFloat(form.oi_buffer)        || 50,
+      square_off_time:  form.square_off_time || "15:15",
     };
     const d = await api.post("/api/settings", data);
     d.status === "saved" ? toast("Settings saved!", "success") : toast("Error: " + JSON.stringify(d), "error");
@@ -120,11 +121,8 @@ export default function Settings() {
               <option value="false">No — Real Orders ⚠️</option>
             </select>
           </Field>
-          <Field label="Timeframe (min)" id="timeframe" hint="">
-            <select defaultValue="5">
-              <option value="5">5 min (recommended)</option>
-              <option value="15">15 min</option>
-            </select>
+          <Field label="Timeframe (min)" id="timeframe" hint="Fixed at 5 min (strategy requirement)">
+            <input type="text" value="5 min (fixed)" readOnly style={{ opacity: 0.5, cursor: "not-allowed" }} />
           </Field>
         </div>
       </div>
@@ -134,9 +132,16 @@ export default function Settings() {
         <div className="form-grid-3">
           <Field label="Active Capital (₹)" id="capital" hint="Suggested: savings ka 20–30%" />
           <Field label="Profit Vault (₹)" id="profit_vault" hint="Locked profit — trade nahi hoga" />
-          <Field label="Daily Loss Limit (₹)" id="daily_loss_limit" hint="Suggested: capital ka 2–3%" />
           <Field label="Max Trades / Day" id="max_trades_day" hint="Suggested: 3–5" />
           <Field label="Risk Per Trade (%)" id="risk_pct" hint="Suggested: 0.01–0.02" />
+          <Field label="Daily Loss Limit (₹)" id="daily_loss_limit" hint={`Auto = capital × risk% × max trades = ₹${Math.round(parseFloat(form.capital||0) * parseFloat(form.risk_pct||0) * parseInt(form.max_trades_day||1))}`}>
+            <input
+              type="text"
+              value={`₹${Math.round(parseFloat(form.capital||0) * parseFloat(form.risk_pct||0) * parseInt(form.max_trades_day||1)).toLocaleString("en-IN")}`}
+              readOnly
+              style={{ opacity: 0.7, cursor: "not-allowed", color: "#f0883e" }}
+            />
+          </Field>
         </div>
       </div>
 
@@ -148,6 +153,7 @@ export default function Settings() {
           <Field label="ADX Threshold" id="adx_threshold" hint="Suggested: 20–25" />
           <Field label="SL Buffer (pts)" id="sl_buffer" hint="Suggested: 10–20 pts" />
           <Field label="OI Buffer (pts)" id="oi_buffer" hint="Suggested: 30–75 pts" />
+          <Field label="Square Off Time" id="square_off_time" type="time" hint="Open trades is time par close honge, e.g. 15:15" />
         </div>
       </div>
 

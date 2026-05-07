@@ -17,9 +17,16 @@ export default function KiteConnect() {
   const [step2done, setStep2done] = useState(false);
 
   async function refresh() {
-    const [s, m] = await Promise.all([api.get("/api/kite/status"), api.get("/api/mongo/status")]);
-    setStatus(s);
-    setMongoOk(m.connected);
+    try {
+      const [s, m] = await Promise.all([
+        api.get("/api/kite/status").catch(() => ({})),
+        api.get("/api/mongo/status").catch(() => ({ connected: false })),
+      ]);
+      setStatus(s);
+      setMongoOk(m.connected || false);
+    } catch (e) {
+      console.error("refresh failed:", e);
+    }
   }
 
   useEffect(() => { refresh(); }, []);
@@ -104,11 +111,19 @@ export default function KiteConnect() {
             <div className={`step-num ${connected ? "done" : "inactive"}`}>{connected ? "✓" : "3"}</div>
             <div className="step-body">
               <h4>Paste Request Token &amp; Connect</h4>
-              <div className="form-group">
-                <label className="form-label">Request Token</label>
-                <input type="text" value={requestToken} onChange={e => setRequestToken(e.target.value)} placeholder="Paste request_token value yahan" />
-              </div>
-              <button className="btn btn-success" onClick={generateToken}>✓ Connect Kite</button>
+              {connected ? (
+                <div style={{ color: "#3fb950", fontWeight: 600, fontSize: 13 }}>
+                  ✓ Kite Connected — Token valid ({status?.date})
+                </div>
+              ) : (
+                <>
+                  <div className="form-group">
+                    <label className="form-label">Request Token</label>
+                    <input type="text" value={requestToken} onChange={e => setRequestToken(e.target.value)} placeholder="Paste request_token value yahan" />
+                  </div>
+                  <button className="btn btn-success" onClick={generateToken}>✓ Connect Kite</button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -153,11 +168,19 @@ export default function KiteConnect() {
             <div className={`step-num ${connected ? "done" : "inactive"}`}>{connected ? "✓" : "3"}</div>
             <div className="step-body">
               <h4>Paste Request Token &amp; Connect</h4>
-              <div className="form-group">
-                <label className="form-label">Request Token</label>
-                <input type="text" value={requestToken} onChange={e => setRequestToken(e.target.value)} placeholder="Paste request_token value yahan" />
-              </div>
-              <button className="btn btn-success" onClick={generateToken}>✓ Connect Kite</button>
+              {connected ? (
+                <div style={{ color: "#3fb950", fontWeight: 600, fontSize: 13 }}>
+                  ✓ Kite Connected — Token valid ({status?.date})
+                </div>
+              ) : (
+                <>
+                  <div className="form-group">
+                    <label className="form-label">Request Token</label>
+                    <input type="text" value={requestToken} onChange={e => setRequestToken(e.target.value)} placeholder="Paste request_token value yahan" />
+                  </div>
+                  <button className="btn btn-success" onClick={generateToken}>✓ Connect Kite</button>
+                </>
+              )}
             </div>
           </div>
         </div>

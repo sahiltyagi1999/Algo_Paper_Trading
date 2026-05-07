@@ -13,11 +13,34 @@ log = logging.getLogger(__name__)
 
 
 def get_all_trades() -> list[dict]:
-    return db.get_all_trades()
+    return enrich_open_trades(db.get_all_trades())
 
 
 def get_todays_trades() -> list[dict]:
-    return db.get_todays_trades()
+    return enrich_open_trades(db.get_todays_trades())
+
+
+def enrich_open_trades(trades: list[dict]) -> list[dict]:
+    open_trades = [t for t in trades if t.get("status") == "OPEN"]
+    symbols = sorted({t.get("option_symbol") or t.get("symbol") for t in open_trades if t.get("option_symbol") or t.get("symbol")})
+    quotes = _fetch_ltp_batch(symbols)
+    now = datetime.now().isoformat()
+
+    for t in open_trades:
+        symbol = t.get("option_symbol") or t.get("symbol")
+        live_ltp = quotes.get(symbol)
+        if live_ltp is None:
+            continue
+        entry = _to_float(t.get("opt_ltp_entry") or t.get("entry"))
+        qty = int(_to_float(t.get("qty")))
+        live_pnl = round((live_ltp - entry) * qty, 2)
+        t["live_ltp"] = round(live_ltp, 2)
+        t["live_pnl"] = live_pnl
+        t["live_pnl_pct"] = round(((live_ltp - entry) / entry) * 100, 2) if entry > 0 else 0
+        t["current_value"] = round(live_ltp * qty, 2)
+        t["unrealized"] = True
+        t["live_price_at"] = now
+    return trades
 
 
 def build_equity_curve(trades: list[dict]) -> list[dict]:
@@ -67,9 +90,9 @@ def close_trade_now(trade_id: str, exit_price: float | None = None) -> dict:
     if trade.get("status") != "OPEN":
         return {"error": f"Trade is already closed (status: {trade['status']})"}
 
-    symbol = trade.get("symbol", "")
+    symbol = trade.get("option_symbol") or trade.get("symbol", "")
     qty    = int(trade.get("qty", 0))
-    entry  = float(trade.get("entry", 0))
+    entry  = float(trade.get("opt_ltp_entry") or trade.get("entry", 0))
 
     # ── Get exit price ────────────────────────────────────────────────────────
     if exit_price is None:
@@ -91,10 +114,12 @@ def close_trade_now(trade_id: str, exit_price: float | None = None) -> dict:
     updated = {
         **trade,
         "status":     "MANUAL_CLOSE",
-        "exit_price": str(exit_price),
-        "exit_value": str(exit_value),
+        "opt_ltp_exit": exit_price,
+        "exit_price": exit_price,
+        "exit_value": exit_value,
         "exit_time":  exit_time,
-        "pnl":        str(pnl),
+        "pnl":        pnl,
+        "exit_source": "manual_close",
     }
     db.update_trade(updated)
     log.info(f"Manual close: {symbol} @ {exit_price} | PnL: {pnl} | order_id: {kite_order_id}")
@@ -126,6 +151,39 @@ def _fetch_ltp(symbol: str) -> float | None:
     except Exception as e:
         log.warning(f"LTP fetch failed for {symbol}: {e}")
         return None
+
+
+def _fetch_ltp_batch(symbols: list[str]) -> dict[str, float]:
+    if not symbols:
+        return {}
+    try:
+        from core.database import load_access_token
+        import config as cfg
+        from kiteconnect import KiteConnect
+        token_info = load_access_token()
+        if not token_info:
+            return {}
+        kite = KiteConnect(api_key=cfg.API_KEY)
+        kite.set_access_token(token_info[0])
+        keys = [f"NFO:{s}" for s in symbols]
+        quote = kite.quote(keys)
+        out = {}
+        for symbol in symbols:
+            data = quote.get(f"NFO:{symbol}") or {}
+            ltp = data.get("last_price")
+            if ltp is not None:
+                out[symbol] = float(ltp)
+        return out
+    except Exception as e:
+        log.warning(f"Batch LTP fetch failed: {e}")
+        return {}
+
+
+def _to_float(value) -> float:
+    try:
+        return float(value or 0)
+    except (TypeError, ValueError):
+        return 0.0
 
 
 def _place_kite_exit(symbol: str, qty: int) -> str | None:

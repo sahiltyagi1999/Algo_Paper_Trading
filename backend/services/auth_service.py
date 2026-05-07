@@ -22,19 +22,18 @@ def check_password(plain: str, hashed: str) -> bool:
 
 
 def make_token(username: str) -> str:
+    # No exp claim — token never expires (session lives until logout)
     payload = {
         "sub": username,
         "iat": datetime.now(timezone.utc),
-        "exp": datetime.now(timezone.utc) + timedelta(hours=config.JWT_EXPIRY_HOURS),
     }
     return jwt.encode(payload, config.JWT_SECRET, algorithm="HS256")
 
 
 def decode_token(token: str) -> dict | None:
     try:
-        return jwt.decode(token, config.JWT_SECRET, algorithms=["HS256"])
-    except jwt.ExpiredSignatureError:
-        return None
+        return jwt.decode(token, config.JWT_SECRET, algorithms=["HS256"],
+                          options={"verify_exp": False})
     except jwt.InvalidTokenError:
         return None
 

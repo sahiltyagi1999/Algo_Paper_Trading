@@ -8,6 +8,7 @@ from services.trade_service import (
 )
 from services.auth_service import jwt_required
 from core import database as db
+import core.trading_session as ts
 
 bp = Blueprint("trades", __name__, url_prefix="/api")
 
@@ -55,6 +56,24 @@ def close_trade(trade_id):
     """
     data       = request.json or {}
     exit_price = data.get("exit_price")
+    try:
+        parsed_exit = float(exit_price) if exit_price not in (None, "") else None
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid exit_price"}), 400
+
+    active_result = ts.close_trade_now(trade_id, parsed_exit)
+    if active_result.get("status") == "closed":
+        trade = active_result["trade"]
+        return jsonify({
+            "status":       "closed",
+            "trade_id":     trade_id,
+            "symbol":       trade.get("option_symbol") or trade.get("symbol"),
+            "exit_price":   trade.get("opt_ltp_exit") or trade.get("exit_price"),
+            "pnl":          trade.get("pnl"),
+            "mode":         "paper",
+            "source":       "active_engine",
+        })
+
     result     = close_trade_now(trade_id, exit_price)
     if "error" in result:
         return jsonify(result), 400

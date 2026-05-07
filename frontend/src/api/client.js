@@ -6,10 +6,21 @@ function getToken() {
 
 export function setToken(t) {
   localStorage.setItem("jwt_token", t);
+  // Store expiry as ms timestamp (decode exp from JWT payload)
+  try {
+    const payload = JSON.parse(atob(t.split(".")[1]));
+    if (payload.exp) localStorage.setItem("jwt_exp", payload.exp * 1000);
+  } catch { /* ignore */ }
 }
 
 export function clearToken() {
   localStorage.removeItem("jwt_token");
+  localStorage.removeItem("jwt_exp");
+}
+
+export function getTokenExpiry() {
+  const exp = localStorage.getItem("jwt_exp");
+  return exp ? parseInt(exp, 10) : null;
 }
 
 async function req(path, opts = {}) {
@@ -25,7 +36,11 @@ async function req(path, opts = {}) {
     clearToken();
     window.dispatchEvent(new Event("auth:logout"));
   }
-  return res.json();
+  try {
+    return await res.json();
+  } catch {
+    return { error: `Server error ${res.status}` };
+  }
 }
 
 export const api = {

@@ -33,5 +33,8 @@ def status():
 @jwt_required
 def logs():
     log_date = request.args.get("date", "")
-    limit    = int(request.args.get("limit", 300))
+    try:
+        limit = int(request.args.get("limit", 300))
+    except (ValueError, TypeError):
+        limit = 300
     return jsonify(get_logs(log_date, limit))
