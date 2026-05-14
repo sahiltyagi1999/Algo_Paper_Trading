@@ -326,18 +326,11 @@ def _place_entry(session, engine, kite, signal, spot, instrument, lot_size):
         opt_sl = opt_ltp * (1 - config.OPT_SL_PCT)
         lots   = PaperEngine.calculate_lots(
             engine.capital, opt_ltp, opt_sl, lot_size,
-            config.RISK_PCT, config.MAX_CAPITAL_PER_TRADE,
+            config.RISK_PCT,
         )
         if lots <= 0:
-            risk_per_lot = abs(opt_ltp - opt_sl) * lot_size
-            capital_per_lot = opt_ltp * lot_size
-            _log(
-                session,
-                f"ENTRY rejected | {direction} | risk/capital sizing gave 0 lots "
-                f"| risk_per_lot={risk_per_lot:.2f} | capital_per_lot={capital_per_lot:.2f} "
-                f"| capital={engine.capital:.2f}",
-            )
-            return
+            lots = 1
+            _log(session, f"ENTRY sizing gave 0 lots | forcing lots=1 | {direction} | opt_ltp={opt_ltp:.2f}")
         result = engine.place_order(
             direction=direction,
             instrument=instrument,

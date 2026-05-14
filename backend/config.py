@@ -26,12 +26,11 @@ ALGO_ENGINE_URL = os.getenv("ALGO_ENGINE_URL", "http://localhost:5050")
 PAPER_TRADING         = os.getenv("PAPER_TRADING", "true").lower() == "true"
 INSTRUMENT            = os.getenv("INSTRUMENT", "NIFTY")
 TIMEFRAME             = int(os.getenv("TIMEFRAME", "5"))
-CAPITAL               = float(os.getenv("CAPITAL", "55000"))
-PROFIT_VAULT          = float(os.getenv("PROFIT_VAULT", "47000"))
-RISK_PCT              = float(os.getenv("RISK_PCT", "0.015"))
-MAX_CAPITAL_PER_TRADE = float(os.getenv("MAX_CAPITAL_PER_TRADE", "0.70"))
-MAX_TRADES_DAY        = int(os.getenv("MAX_TRADES_DAY", "3"))
-DAILY_LOSS_LIMIT      = float(os.getenv("DAILY_LOSS_LIMIT", "2000"))
+CAPITAL               = float(os.getenv("CAPITAL", "240000"))
+PROFIT_VAULT          = float(os.getenv("PROFIT_VAULT", "0"))
+RISK_PCT              = float(os.getenv("RISK_PCT", "0.03"))
+MAX_TRADES_DAY        = int(os.getenv("MAX_TRADES_DAY", "10"))  # max losing trades before stop
+DAILY_LOSS_LIMIT      = float(os.getenv("DAILY_LOSS_LIMIT", "8500"))
 
 # ── Runtime safety / polling ─────────────────────────────────────────────────
 # Signal generation must use only fully closed candles. 5m candle timestamps are
@@ -50,12 +49,12 @@ DOMINANCE_BODY = float(os.getenv("DOMINANCE_BODY", "0.55"))
 REJECTION_WICK = float(os.getenv("REJECTION_WICK", "0.45"))
 
 # ── Filters ───────────────────────────────────────────────────────────────────
-ADX_THRESHOLD   = float(os.getenv("ADX_THRESHOLD", "20"))
+ADX_THRESHOLD   = float(os.getenv("ADX_THRESHOLD", "0"))    # transcript mein ADX nahi tha
 EMA30_PROXIMITY = float(os.getenv("EMA30_PROXIMITY", "0.006"))
 STRETCH_PCT     = float(os.getenv("STRETCH_PCT", "0.001"))
-SL_BUFFER       = float(os.getenv("SL_BUFFER", "50.0"))
-ENTRY_BUFFER    = float(os.getenv("ENTRY_BUFFER", "2.0"))
-OPT_SL_PCT      = float(os.getenv("OPT_SL_PCT",  "0.40"))  # close option if LTP drops 40%
+SL_BUFFER       = float(os.getenv("SL_BUFFER", "0"))       # transcript: SL = candle low, no buffer
+ENTRY_BUFFER    = float(os.getenv("ENTRY_BUFFER", "0"))     # transcript: entry = candle high exactly
+OPT_SL_PCT      = float(os.getenv("OPT_SL_PCT",  "0.40"))
 OI_BUFFER       = float(os.getenv("OI_BUFFER", "50"))
 
 # ── Market hours (IST 24h) ────────────────────────────────────────────────────

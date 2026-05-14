@@ -46,10 +46,6 @@ def explain_signal_ema(df: pd.DataFrame) -> tuple[dict | None, dict]:
         "ema_slow": round(float(last["ema_slow"]), 2),
         "adx": round(float(last.get("adx", 0)), 2),
     })
-    if last.get("adx", 0) < config.ADX_THRESHOLD:
-        diag["reason"] = f"ADX {last.get('adx', 0):.1f} < {config.ADX_THRESHOLD}"
-        return None, diag
-
     direction = "BUY" if last["ema_fast"] > last["ema_slow"] else "SELL"
     price     = last["close"]
     body      = abs(last["close"] - last["open"])
@@ -74,27 +70,34 @@ def explain_signal_ema(df: pd.DataFrame) -> tuple[dict | None, dict]:
         "ema_stretch_pct": round(float(stretch * 100), 3),
     })
 
-    if direction == "BUY" and not bullish:
-        diag["reason"] = "BUY trend but candle is red"
-        return None, diag
-    if direction == "SELL" and bullish:
-        diag["reason"] = "SELL trend but candle is green"
-        return None, diag
-
     def _signal(entry_type, rr):
-        sl     = last["low"]  - config.SL_BUFFER    if direction == "BUY" else last["high"] + config.SL_BUFFER
-        entry  = last["high"] + config.ENTRY_BUFFER  if direction == "BUY" else last["low"]  - config.ENTRY_BUFFER
-        risk   = abs(entry - sl)
+        prev = df.iloc[-2]
+        # SL = previous candle's high (SELL) or low (BUY) — wider and more meaningful than signal candle
+        sl    = prev["low"]  - config.SL_BUFFER if direction == "BUY" else prev["high"] + config.SL_BUFFER
+        entry = last["high"] + config.ENTRY_BUFFER if direction == "BUY" else last["low"] - config.ENTRY_BUFFER
+        risk  = abs(entry - sl)
         target = entry + risk * rr if direction == "BUY" else entry - risk * rr
         return {"direction": direction, "entry_type": entry_type,
                 "entry": round(entry, 2), "sl": round(sl, 2), "target": round(target, 2),
                 "candle": last.to_dict(), "candle_time": candle_time, "rr": rr}
 
-    if proximity <= config.EMA30_PROXIMITY and (is_dominance or is_rejection):
-        sig = _signal("Retest", 3)
-        diag.update({"reason": "Retest signal", "signal": True, "entry_type": "Retest"})
-        return sig, diag
-    if stretch >= config.STRETCH_PCT and is_dominance:
+    # Retest: price near EMA30 — trend must exist (EMAs must be separated), candle must match direction
+    if proximity <= config.EMA30_PROXIMITY and (is_dominance or is_rejection) and stretch >= config.STRETCH_PCT:
+        candle_matches = (direction == "BUY" and bullish) or (direction == "SELL" and not bullish)
+        if candle_matches:
+            sig = _signal("Retest", 3)
+            diag.update({"reason": "Retest signal", "signal": True, "entry_type": "Retest"})
+            return sig, diag
+        diag["reason"] = f"Retest found but candle direction mismatch | dir={direction} bullish={bullish}"
+        return None, diag
+
+    # Continuation: EMAs stretched — dominance candle + direction must match trend
+    # Price must be within 1% of EMA8 — not flying too far in either direction
+    ema_fast_val = float(last["ema_fast"])
+    prox_fast = abs(price - ema_fast_val) / price
+    price_vs_ema8_ok = prox_fast <= 0.01
+    candle_matches_trend = (direction == "BUY" and bullish) or (direction == "SELL" and not bullish)
+    if stretch >= config.STRETCH_PCT and is_dominance and candle_matches_trend and price_vs_ema8_ok:
         sig = _signal("Continuation", 2)
         diag.update({"reason": "Continuation signal", "signal": True, "entry_type": "Continuation"})
         return sig, diag
@@ -102,7 +105,8 @@ def explain_signal_ema(df: pd.DataFrame) -> tuple[dict | None, dict]:
     diag["reason"] = (
         f"filters failed: proximity {proximity*100:.2f}% "
         f"(limit {config.EMA30_PROXIMITY*100:.2f}%), stretch {stretch*100:.2f}% "
-        f"(min {config.STRETCH_PCT*100:.2f}%), dominance={is_dominance}, rejection={is_rejection}"
+        f"(min {config.STRETCH_PCT*100:.2f}%), dominance={is_dominance}, "
+        f"rejection={is_rejection}, candle_matches_trend={candle_matches_trend}"
     )
     return None, diag
 

@@ -15,6 +15,7 @@ class PaperEngine:
         self.closed_trades: list[dict] = []
         self.daily_pnl   = float(restored_pnl)
         self.trade_count = len(self.open_trades)
+        self.loss_count  = 0
         self._save   = on_trade_save   or (lambda t: None)
         self._update = on_trade_update or (lambda t: None)
         self._lock   = threading.Lock()
@@ -23,8 +24,8 @@ class PaperEngine:
                     option_symbol, opt_ltp, lots, lot_size, entry_type,
                     strategy_name="8-30 EMA", metadata: dict | None = None):
         with self._lock:
-            if self.trade_count >= self.max_trades:
-                return {"status": "rejected", "reason": f"Max {self.max_trades} trades reached"}
+            if self.loss_count >= self.max_trades:
+                return {"status": "rejected", "reason": f"Max {self.max_trades} losing trades reached — trading stopped for today"}
             if self.daily_pnl <= -abs(self.daily_loss_limit):
                 return {"status": "rejected", "reason": "Daily loss limit hit"}
             if lots <= 0 or lot_size <= 0:
@@ -191,6 +192,8 @@ class PaperEngine:
         t.update(updates)
         self.daily_pnl += pnl
         self.capital   += pnl
+        if pnl < 0:
+            self.loss_count += 1
         self.closed_trades.append(t)
         try:
             self._update(t)
@@ -243,18 +246,14 @@ class PaperEngine:
             return False
 
     @staticmethod
-    def calculate_lots(capital, opt_entry, opt_sl, lot_size,
-                       risk_pct=config.RISK_PCT, max_capital_pct=config.MAX_CAPITAL_PER_TRADE):
+    def calculate_lots(capital, opt_entry, opt_sl, lot_size, risk_pct=config.RISK_PCT):
         if opt_entry <= 0 or lot_size <= 0:
             return 0
         risk_per_lot = abs(opt_entry - opt_sl) * lot_size
         if risk_per_lot <= 0:
             return 0
-        lots_by_risk    = int((capital * risk_pct) / risk_per_lot)
-        lots_by_capital = int((capital * max_capital_pct) / (opt_entry * lot_size))
-        if lots_by_risk < 1 or lots_by_capital < 1:
-            return 0
-        return min(lots_by_risk, lots_by_capital)
+        lots = int((capital * risk_pct) / risk_per_lot)
+        return lots if lots >= 1 else 0
 
     def summary(self) -> dict:
         wins   = [t for t in self.closed_trades if t["pnl"] > 0]
@@ -269,5 +268,8 @@ class PaperEngine:
             "closed_trades": len(self.closed_trades),
             "wins":          len(wins),
             "losses":        len(losses),
+            "loss_count":    self.loss_count,
+            "max_losses":    self.max_trades,
+            "trading_halted": self.loss_count >= self.max_trades,
             "win_rate":      round(len(wins) / max(len(self.closed_trades), 1) * 100, 1),
         }
